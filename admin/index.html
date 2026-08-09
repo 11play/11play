@@ -1,0 +1,3166 @@
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-main-site-url="https://11play.github.io/11play/"
+>
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta
+        name="robots"
+        content="noindex, nofollow, noarchive, nosnippet"
+    >
+
+    <meta
+        name="referrer"
+        content="strict-origin-when-cross-origin"
+    >
+
+    <meta
+        name="color-scheme"
+        content="light dark"
+    >
+
+    <meta
+        name="description"
+        content="Secure 11Play administration dashboard."
+    >
+
+    <title>Admin Dashboard — 11Play</title>
+
+    <link
+        rel="preconnect"
+        href="https://www.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/admin.css"
+    >
+</head>
+
+<body>
+    <div
+        class="admin-app"
+        data-admin-app
+        data-admin-screen="loading"
+        aria-busy="true"
+    >
+        <!-- =================================================
+             LOADING SCREEN
+        ================================================== -->
+
+        <section
+            class="admin-entry-screen admin-loading-screen"
+            data-admin-loading-screen
+            aria-hidden="false"
+            aria-live="polite"
+        >
+            <div class="admin-entry-card">
+                <div
+                    class="admin-spinner"
+                    aria-hidden="true"
+                ></div>
+
+                <h1>
+                    11Play Admin
+                </h1>
+
+                <p>
+                    Verifying Admin access...
+                </p>
+            </div>
+        </section>
+
+        <!-- =================================================
+             GOOGLE SIGN-IN SCREEN
+        ================================================== -->
+
+        <section
+            class="admin-entry-screen"
+            data-admin-auth-screen
+            hidden
+            aria-hidden="true"
+        >
+            <div class="admin-entry-card">
+                <div
+                    class="admin-brand-mark"
+                    aria-hidden="true"
+                >
+                    11
+                </div>
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    Sign in with the authorized verified Google
+                    account to continue.
+                </p>
+
+                <button
+                    type="button"
+                    class="admin-google-login-button"
+                    data-admin-google-login
+                >
+                    <span aria-hidden="true">
+                        G
+                    </span>
+
+                    <span>
+                        Sign in with Google
+                    </span>
+                </button>
+
+                <a
+                    class="admin-back-link"
+                    href="https://11play.github.io/11play/"
+                >
+                    Back to 11Play
+                </a>
+            </div>
+        </section>
+
+        <!-- =================================================
+             ACCESS DENIED SCREEN
+        ================================================== -->
+
+        <section
+            class="admin-entry-screen"
+            data-admin-access-denied-screen
+            hidden
+            aria-hidden="true"
+            aria-live="assertive"
+        >
+            <div class="admin-entry-card admin-access-denied-card">
+                <div
+                    class="admin-entry-icon"
+                    aria-hidden="true"
+                >
+                    !
+                </div>
+
+                <h1>
+                    Access Denied
+                </h1>
+
+                <p>
+                    This Google account is not authorized to
+                    access the 11Play Admin Dashboard.
+                </p>
+
+                <p class="admin-entry-note">
+                    Admin access is restricted to the authorized
+                    verified Google Admin account.
+                </p>
+
+                <a
+                    class="admin-primary-link"
+                    href="https://11play.github.io/11play/"
+                >
+                    Return to 11Play
+                </a>
+            </div>
+        </section>
+
+        <!-- =================================================
+             ERROR SCREEN
+        ================================================== -->
+
+        <section
+            class="admin-entry-screen"
+            data-admin-error-screen
+            hidden
+            aria-hidden="true"
+            aria-live="assertive"
+        >
+            <div class="admin-entry-card admin-error-card">
+                <div
+                    class="admin-entry-icon"
+                    aria-hidden="true"
+                >
+                    !
+                </div>
+
+                <h1>
+                    Admin Dashboard Error
+                </h1>
+
+                <p data-admin-error-message>
+                    The Admin Dashboard could not be loaded.
+                </p>
+
+                <div class="admin-entry-actions">
+                    <button
+                        type="button"
+                        data-admin-retry
+                    >
+                        Try Again
+                    </button>
+
+                    <a href="https://11play.github.io/11play/">
+                        Back to 11Play
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             ADMIN DASHBOARD
+        ================================================== -->
+
+        <div
+            class="admin-dashboard"
+            data-admin-dashboard
+            hidden
+            aria-hidden="true"
+        >
+            <!-- =============================================
+                 SIDEBAR
+            ============================================== -->
+
+            <aside class="admin-sidebar">
+                <div class="admin-sidebar-header">
+                    <a
+                        class="admin-sidebar-brand"
+                        href="#dashboard"
+                        data-admin-route="dashboard"
+                    >
+                        <span
+                            class="admin-brand-logo"
+                            aria-hidden="true"
+                        >
+                            11
+                        </span>
+
+                        <span>
+                            <strong>
+                                11Play
+                            </strong>
+
+                            <small>
+                                Admin Dashboard
+                            </small>
+                        </span>
+                    </a>
+                </div>
+
+                <nav
+                    class="admin-navigation"
+                    aria-label="Admin Dashboard navigation"
+                >
+                    <a
+                        href="#dashboard"
+                        data-admin-route="dashboard"
+                    >
+                        <span aria-hidden="true">
+                            ◫
+                        </span>
+
+                        <span>
+                            Dashboard
+                        </span>
+                    </a>
+
+                    <a
+                        href="#users"
+                        data-admin-route="users"
+                    >
+                        <span aria-hidden="true">
+                            ♙
+                        </span>
+
+                        <span>
+                            Users
+                        </span>
+                    </a>
+
+                    <a
+                        href="#referrals"
+                        data-admin-route="referrals"
+                    >
+                        <span aria-hidden="true">
+                            ↗
+                        </span>
+
+                        <span>
+                            Referrals
+                        </span>
+                    </a>
+
+                    <a
+                        href="#withdrawals"
+                        data-admin-route="withdrawals"
+                    >
+                        <span aria-hidden="true">
+                            ৳
+                        </span>
+
+                        <span>
+                            Withdrawals
+                        </span>
+                    </a>
+
+                    <a
+                        href="#transactions"
+                        data-admin-route="transactions"
+                    >
+                        <span aria-hidden="true">
+                            ≡
+                        </span>
+
+                        <span>
+                            Transactions
+                        </span>
+                    </a>
+                </nav>
+
+                <div class="admin-sidebar-footer">
+                    <div class="admin-sidebar-profile">
+                        <div class="admin-profile-photo">
+                            <img
+                                data-admin-photo
+                                alt="Admin profile"
+                                referrerpolicy="no-referrer"
+                            >
+                        </div>
+
+                        <div class="admin-profile-information">
+                            <strong data-admin-name>
+                                Admin
+                            </strong>
+
+                            <small data-admin-email>
+                                casinobuzzbd@gmail.com
+                            </small>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="admin-logout-button"
+                        data-admin-logout
+                    >
+                        Sign Out
+                    </button>
+                </div>
+            </aside>
+
+            <!-- =============================================
+                 MAIN AREA
+            ============================================== -->
+
+            <main class="admin-main">
+                <header class="admin-topbar">
+                    <div>
+                        <p class="admin-topbar-eyebrow">
+                            11Play Administration
+                        </p>
+
+                        <h1 data-admin-page-title>
+                            Dashboard
+                        </h1>
+                    </div>
+
+                    <div class="admin-topbar-actions">
+                        <button
+                            type="button"
+                            data-admin-refresh
+                        >
+                            Refresh
+                        </button>
+
+                        <div class="admin-topbar-profile">
+                            <img
+                                data-admin-photo
+                                alt="Admin profile"
+                                referrerpolicy="no-referrer"
+                            >
+
+                            <span>
+                                <strong data-admin-name>
+                                    Admin
+                                </strong>
+
+                                <small data-admin-email>
+                                    casinobuzzbd@gmail.com
+                                </small>
+                            </span>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="admin-content">
+                    <!-- =====================================
+                         DASHBOARD PAGE
+                    ====================================== -->
+
+                    <section
+                        class="admin-page"
+                        data-admin-page="dashboard"
+                        aria-hidden="false"
+                    >
+                        <div class="admin-page-heading">
+                            <div>
+                                <h2>
+                                    Dashboard Overview
+                                </h2>
+
+                                <p>
+                                    Profile, referral, wallet,
+                                    withdrawal and transaction summary.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                data-admin-refresh
+                            >
+                                Refresh Dashboard
+                            </button>
+                        </div>
+
+                        <!-- USERS -->
+
+                        <div class="admin-summary-grid">
+                            <article class="admin-summary-card">
+                                <span class="admin-summary-label">
+                                    Total Users
+                                </span>
+
+                                <strong
+                                    data-admin-summary-users-total
+                                >
+                                    0
+                                </strong>
+
+                                <small>
+                                    All registered profile users
+                                </small>
+                            </article>
+
+                            <article class="admin-summary-card">
+                                <span class="admin-summary-label">
+                                    Active Users
+                                </span>
+
+                                <strong
+                                    data-admin-summary-users-active
+                                >
+                                    0
+                                </strong>
+
+                                <small>
+                                    Active accounts
+                                </small>
+                            </article>
+
+                            <article class="admin-summary-card">
+                                <span class="admin-summary-label">
+                                    Suspended Users
+                                </span>
+
+                                <strong
+                                    data-admin-summary-users-suspended
+                                >
+                                    0
+                                </strong>
+
+                                <small>
+                                    Temporarily suspended accounts
+                                </small>
+                            </article>
+
+                            <article class="admin-summary-card">
+                                <span class="admin-summary-label">
+                                    Blocked Users
+                                </span>
+
+                                <strong
+                                    data-admin-summary-users-blocked
+                                >
+                                    0
+                                </strong>
+
+                                <small>
+                                    Blocked accounts
+                                </small>
+                            </article>
+                        </div>
+
+                        <!-- REFERRALS -->
+
+                        <div class="admin-dashboard-section">
+                            <div class="admin-section-heading">
+                                <h3>
+                                    Referral Summary
+                                </h3>
+
+                                <a
+                                    href="#referrals"
+                                    data-admin-route="referrals"
+                                >
+                                    Review Referrals
+                                </a>
+                            </div>
+
+                            <div class="admin-summary-grid">
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Total Referrals
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-total
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Pending
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-pending
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Qualified / Pending Admin
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-qualified
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <!--
+                                    Historical compatibility selector.
+                                -->
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Legacy Approved
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-approved
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Rewarded
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-rewarded
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Rejected
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-rejected
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Total Referral Reward
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-referrals-reward
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- WITHDRAWALS -->
+
+                        <div class="admin-dashboard-section">
+                            <div class="admin-section-heading">
+                                <h3>
+                                    Withdrawal Summary
+                                </h3>
+
+                                <a
+                                    href="#withdrawals"
+                                    data-admin-route="withdrawals"
+                                >
+                                    Review Withdrawals
+                                </a>
+                            </div>
+
+                            <div class="admin-summary-grid">
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Total Withdrawals
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-withdrawals-total
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Pending
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-withdrawals-pending
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Approved
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-withdrawals-approved
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Rejected
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-withdrawals-rejected
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <!-- Historical compatibility only -->
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Historical Cancelled
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-withdrawals-cancelled
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Pending Amount
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-withdrawals-pending-amount
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- WALLET -->
+
+                        <div class="admin-dashboard-section">
+                            <div class="admin-section-heading">
+                                <h3>
+                                    Wallet Summary
+                                </h3>
+
+                                <a
+                                    href="#transactions"
+                                    data-admin-route="transactions"
+                                >
+                                    View Transactions
+                                </a>
+                            </div>
+
+                            <div class="admin-summary-grid">
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Available Balance
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-wallet-available
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Held Balance
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-wallet-held
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Total Earned
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-wallet-earned
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Total Withdrawn
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-wallet-withdrawn
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Wallet Transactions
+                                    </span>
+
+                                    <strong
+                                        data-admin-summary-transactions-total
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================
+                         USERS PAGE
+                    ====================================== -->
+
+                    <section
+                        class="admin-page"
+                        data-admin-page="users"
+                        data-admin-users
+                        hidden
+                        aria-hidden="true"
+                    >
+                        <div class="admin-page-heading">
+                            <div>
+                                <h2>
+                                    Profile System Users
+                                </h2>
+
+                                <p>
+                                    Review account status, Eligible Active
+                                    Days, referral statistics and wallet
+                                    balances.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                data-admin-users-refresh
+                            >
+                                Refresh Users
+                            </button>
+                        </div>
+
+                        <div class="admin-toolbar">
+                            <label class="admin-search-field">
+                                <span>
+                                    Search Users
+                                </span>
+
+                                <input
+                                    type="search"
+                                    placeholder="Name, email, mobile, UID or referral code"
+                                    autocomplete="off"
+                                    data-admin-users-search
+                                >
+                            </label>
+
+                            <label>
+                                <span>
+                                    Account Status
+                                </span>
+
+                                <select data-admin-users-status>
+                                    <option value="">
+                                        All Users
+                                    </option>
+
+                                    <option value="active">
+                                        Active
+                                    </option>
+
+                                    <option value="suspended">
+                                        Suspended
+                                    </option>
+
+                                    <option value="blocked">
+                                        Blocked
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="admin-list-summary">
+                            <span>
+                                Total Users:
+                                <strong data-admin-users-total>
+                                    0
+                                </strong>
+                            </span>
+                        </div>
+
+                        <div
+                            class="admin-inline-state"
+                            data-admin-users-loading
+                            hidden
+                            aria-live="polite"
+                        >
+                            Loading users...
+                        </div>
+
+                        <div
+                            class="admin-inline-state admin-error-state"
+                            data-admin-users-error
+                            hidden
+                            role="alert"
+                        >
+                            <span
+                                data-admin-users-error-message
+                            ></span>
+                        </div>
+
+                        <div
+                            class="admin-table-wrapper"
+                            tabindex="0"
+                            aria-label="Admin users table"
+                        >
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            User
+                                        </th>
+
+                                        <th>
+                                            Mobile
+                                        </th>
+
+                                        <th>
+                                            Referral Code
+                                        </th>
+
+                                        <th>
+                                            Available Balance
+                                        </th>
+
+                                        <th>
+                                            Status
+                                        </th>
+
+                                        <th>
+                                            Registration
+                                        </th>
+
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody data-admin-users-body></tbody>
+                            </table>
+                        </div>
+
+                        <div
+                            class="admin-empty-state"
+                            data-admin-users-empty
+                            hidden
+                        >
+                            No users found.
+                        </div>
+
+                        <div class="admin-load-more">
+                            <button
+                                type="button"
+                                data-admin-users-load-more
+                                hidden
+                            >
+                                Load More Users
+                            </button>
+                        </div>
+
+                        <!-- USER DETAILS PANEL -->
+
+                        <aside
+                            class="admin-details-panel"
+                            data-admin-user-details
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="adminUserDetailsTitle"
+                            tabindex="-1"
+                            hidden
+                            aria-hidden="true"
+                        >
+                            <div class="admin-details-header">
+                                <div>
+                                    <h3 id="adminUserDetailsTitle">
+                                        User Details
+                                    </h3>
+
+                                    <p data-admin-user-detail-uid>
+                                        —
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    aria-label="Close user details"
+                                    data-admin-user-details-close
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <div class="admin-details-content">
+                                <div class="admin-user-detail-profile">
+                                    <img
+                                        data-admin-user-detail-photo
+                                        alt="User profile"
+                                        referrerpolicy="no-referrer"
+                                    >
+
+                                    <div>
+                                        <h4
+                                            data-admin-user-detail-name
+                                        >
+                                            —
+                                        </h4>
+
+                                        <p
+                                            data-admin-user-detail-email
+                                        >
+                                            —
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Mobile
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-mobile
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Status
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-status
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Referral Code
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referral-code
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Registration
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-registration
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Last Login
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-last-login
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Eligible Active Days
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-active-days
+                                            data-admin-user-detail-active-seconds
+                                        >
+                                            0 / 7
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <h4>
+                                    Wallet
+                                </h4>
+
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Available
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-wallet-available
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Held
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-wallet-held
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Earned
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-wallet-earned
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Withdrawn
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-wallet-withdrawn
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <h4>
+                                    Referrals
+                                </h4>
+
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Total
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-total
+                                        >
+                                            0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Pending
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-pending
+                                        >
+                                            0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Qualified
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-qualified
+                                        >
+                                            0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Legacy Approved
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-approved
+                                        >
+                                            0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Rewarded
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-rewarded
+                                        >
+                                            0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Rejected
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-rejected
+                                        >
+                                            0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Reward
+                                        </span>
+
+                                        <strong
+                                            data-admin-user-detail-referrals-total-reward
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <form
+                                    class="admin-form"
+                                    data-admin-user-profile-form
+                                >
+                                    <h4>
+                                        Update Account Status
+                                    </h4>
+
+                                    <input
+                                        type="hidden"
+                                        name="userId"
+                                    >
+
+                                    <label>
+                                        <span>
+                                            Account Status
+                                        </span>
+
+                                        <select
+                                            name="status"
+                                            required
+                                        >
+                                            <option value="active">
+                                                Active
+                                            </option>
+
+                                            <option value="suspended">
+                                                Suspended
+                                            </option>
+
+                                            <option value="blocked">
+                                                Blocked
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        <span>
+                                            Admin Note
+                                        </span>
+
+                                        <textarea
+                                            name="adminNote"
+                                            rows="3"
+                                            maxlength="500"
+                                            required
+                                        ></textarea>
+                                    </label>
+
+                                    <button type="submit">
+                                        Save Account Status
+                                    </button>
+                                </form>
+
+                                <form
+                                    class="admin-form"
+                                    data-admin-user-wallet-form
+                                >
+                                    <h4>
+                                        Wallet Adjustment
+                                    </h4>
+
+                                    <input
+                                        type="hidden"
+                                        name="userId"
+                                    >
+
+                                    <label>
+                                        <span>
+                                            Direction
+                                        </span>
+
+                                        <select
+                                            name="direction"
+                                            required
+                                        >
+                                            <option value="credit">
+                                                Credit
+                                            </option>
+
+                                            <option value="debit">
+                                                Debit
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        <span>
+                                            Amount
+                                        </span>
+
+                                        <input
+                                            type="number"
+                                            name="amount"
+                                            min="1"
+                                            step="1"
+                                            inputmode="numeric"
+                                            required
+                                        >
+                                    </label>
+
+                                    <label>
+                                        <span>
+                                            Operation ID
+                                        </span>
+
+                                        <input
+                                            type="text"
+                                            name="operationId"
+                                            minlength="8"
+                                            maxlength="128"
+                                            placeholder="Generated automatically when empty"
+                                        >
+                                    </label>
+
+                                    <label>
+                                        <span>
+                                            Admin Note
+                                        </span>
+
+                                        <textarea
+                                            name="adminNote"
+                                            rows="3"
+                                            maxlength="500"
+                                            required
+                                        ></textarea>
+                                    </label>
+
+                                    <button type="submit">
+                                        Apply Wallet Adjustment
+                                    </button>
+                                </form>
+                            </div>
+                        </aside>
+                    </section>
+
+                    <!-- =====================================
+                         REFERRALS PAGE
+                    ====================================== -->
+
+                    <section
+                        class="admin-page"
+                        data-admin-page="referrals"
+                        data-admin-referrals
+                        hidden
+                        aria-hidden="true"
+                    >
+                        <div class="admin-page-heading">
+                            <div>
+                                <h2>
+                                    Qualified Referral Reviews
+                                </h2>
+
+                                <p>
+                                    Review referrals only after the verified
+                                    Google account, globally unique Bangladesh
+                                    mobile, Unique Web Device binding and
+                                    7 different Eligible Active Days with at
+                                    least 2 eligible hours on each day are
+                                    complete.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                data-admin-referrals-refresh
+                            >
+                                Refresh Referrals
+                            </button>
+                        </div>
+
+                        <div class="admin-toolbar">
+                            <label class="admin-search-field">
+                                <span>
+                                    Search Referrals
+                                </span>
+
+                                <input
+                                    type="search"
+                                    placeholder="Referral code, name, email, mobile or UID"
+                                    autocomplete="off"
+                                    data-admin-referrals-search
+                                >
+                            </label>
+                        </div>
+
+                        <div class="admin-list-summary">
+                            <span>
+                                Pending Admin Review:
+                                <strong data-admin-referrals-total>
+                                    0
+                                </strong>
+                            </span>
+
+                            <span>
+                                Pending Reward:
+                                <strong
+                                    data-admin-referrals-pending-reward
+                                >
+                                    ৳0
+                                </strong>
+                            </span>
+                        </div>
+
+                        <div
+                            class="admin-inline-state"
+                            data-admin-referrals-loading
+                            hidden
+                            aria-live="polite"
+                        >
+                            Loading qualified referrals...
+                        </div>
+
+                        <div
+                            class="admin-inline-state admin-error-state"
+                            data-admin-referrals-error
+                            hidden
+                            role="alert"
+                        >
+                            <span
+                                data-admin-referrals-error-message
+                            ></span>
+                        </div>
+
+                        <div
+                            class="admin-table-wrapper"
+                            tabindex="0"
+                            aria-label="Qualified referrals table"
+                        >
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Referrer
+                                        </th>
+
+                                        <th>
+                                            Referred User
+                                        </th>
+
+                                        <th>
+                                            Code
+                                        </th>
+
+                                        <th>
+                                            Google
+                                        </th>
+
+                                        <th>
+                                            Mobile
+                                        </th>
+
+                                        <th>
+                                            Web Device
+                                        </th>
+
+                                        <th>
+                                            Active Days
+                                        </th>
+
+                                        <th>
+                                            Reward
+                                        </th>
+
+                                        <th>
+                                            Qualified At
+                                        </th>
+
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody
+                                    data-admin-referrals-body
+                                ></tbody>
+                            </table>
+                        </div>
+
+                        <div
+                            class="admin-empty-state"
+                            data-admin-referrals-empty
+                            hidden
+                        >
+                            No qualified referral is waiting for Admin review.
+                        </div>
+
+                        <div class="admin-load-more">
+                            <button
+                                type="button"
+                                data-admin-referrals-load-more
+                                hidden
+                            >
+                                Load More Referrals
+                            </button>
+                        </div>
+
+                        <!-- REFERRAL DETAILS -->
+
+                        <aside
+                            class="admin-details-panel"
+                            data-admin-referral-details
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="adminReferralDetailsTitle"
+                            tabindex="-1"
+                            hidden
+                            aria-hidden="true"
+                        >
+                            <div class="admin-details-header">
+                                <div>
+                                    <h3 id="adminReferralDetailsTitle">
+                                        Referral Review
+                                    </h3>
+
+                                    <p
+                                        data-admin-referral-detail-id
+                                    >
+                                        —
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    aria-label="Close referral details"
+                                    data-admin-referral-details-close
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <div class="admin-details-content">
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Referral Code
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-code
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Status
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-status
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Reward
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-reward
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Created
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-created
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Qualified At
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-eligible-at
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Eligibility
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-eligibility
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <h4>
+                                    Referrer
+                                </h4>
+
+                                <div class="admin-user-detail-profile">
+                                    <img
+                                        data-admin-referral-detail-referrer-photo
+                                        alt="Referrer profile"
+                                        referrerpolicy="no-referrer"
+                                    >
+
+                                    <div>
+                                        <strong
+                                            data-admin-referral-detail-referrer-name
+                                        >
+                                            —
+                                        </strong>
+
+                                        <p
+                                            data-admin-referral-detail-referrer-email
+                                        >
+                                            —
+                                        </p>
+
+                                        <small
+                                            data-admin-referral-detail-referrer-uid
+                                        >
+                                            —
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <h4>
+                                    Referred User
+                                </h4>
+
+                                <div class="admin-user-detail-profile">
+                                    <img
+                                        data-admin-referral-detail-referred-photo
+                                        alt="Referred user profile"
+                                        referrerpolicy="no-referrer"
+                                    >
+
+                                    <div>
+                                        <strong
+                                            data-admin-referral-detail-referred-name
+                                        >
+                                            —
+                                        </strong>
+
+                                        <p
+                                            data-admin-referral-detail-referred-email
+                                        >
+                                            —
+                                        </p>
+
+                                        <small
+                                            data-admin-referral-detail-referred-uid
+                                        >
+                                            —
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Mobile Number
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-referred-mobile
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Verified Google
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-google
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Unique Mobile
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-mobile
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Unique Web Device
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-device
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Web Device ID
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-device-id
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Daily Activity Requirement
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-activity-completed
+                                            data-admin-referral-detail-using-time
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Eligible Active Days
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-active-days
+                                            data-admin-referral-detail-active-time
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Required Days
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-required-days
+                                            data-admin-referral-detail-required-time
+                                        >
+                                            7
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Required Per Day
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-required-daily-time
+                                        >
+                                            2 hours
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Activity Policy
+                                        </span>
+
+                                        <strong
+                                            data-admin-referral-detail-activity-policy
+                                        >
+                                            v2
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <form
+                                    class="admin-form"
+                                    data-admin-referral-approve-form
+                                >
+                                    <h4>
+                                        Approve Referral
+                                    </h4>
+
+                                    <input
+                                        type="hidden"
+                                        name="referralId"
+                                    >
+
+                                    <label>
+                                        <span>
+                                            Admin Note
+                                            <small>
+                                                Optional
+                                            </small>
+                                        </span>
+
+                                        <textarea
+                                            name="adminNote"
+                                            rows="3"
+                                            maxlength="500"
+                                        ></textarea>
+                                    </label>
+
+                                    <button type="submit">
+                                        Approve and Credit ৳1,000 Reward
+                                    </button>
+                                </form>
+
+                                <form
+                                    class="admin-form admin-danger-form"
+                                    data-admin-referral-reject-form
+                                >
+                                    <h4>
+                                        Reject Referral
+                                    </h4>
+
+                                    <input
+                                        type="hidden"
+                                        name="referralId"
+                                    >
+
+                                    <label>
+                                        <span>
+                                            Rejection Note
+                                            <small>
+                                                Optional
+                                            </small>
+                                        </span>
+
+                                        <textarea
+                                            name="adminNote"
+                                            rows="3"
+                                            maxlength="500"
+                                        ></textarea>
+                                    </label>
+
+                                    <button type="submit">
+                                        Reject Referral
+                                    </button>
+                                </form>
+                            </div>
+                        </aside>
+                    </section>
+
+                    <!-- =====================================
+                         WITHDRAWALS PAGE
+                    ====================================== -->
+
+                    <section
+                        class="admin-page"
+                        data-admin-page="withdrawals"
+                        data-admin-withdrawals
+                        hidden
+                        aria-hidden="true"
+                    >
+                        <div class="admin-page-heading">
+                            <div>
+                                <h2>
+                                    Pending Withdrawals
+                                </h2>
+
+                                <p>
+                                    Review pending withdrawal requests.
+                                    Send the payment manually through the
+                                    requested bKash, Nagad or Rocket account
+                                    before approving. Rejecting a request
+                                    refunds its Held Balance to the user's
+                                    Available Balance.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                data-admin-withdrawals-refresh
+                            >
+                                Refresh Withdrawals
+                            </button>
+                        </div>
+
+                        <div class="admin-toolbar">
+                            <label class="admin-search-field">
+                                <span>
+                                    Search Withdrawals
+                                </span>
+
+                                <input
+                                    type="search"
+                                    placeholder="User, wallet, number, amount, ID or email"
+                                    autocomplete="off"
+                                    data-admin-withdrawals-search
+                                >
+                            </label>
+                        </div>
+
+                        <div class="admin-list-summary">
+                            <span>
+                                Pending Requests:
+                                <strong
+                                    data-admin-withdrawals-total
+                                >
+                                    0
+                                </strong>
+                            </span>
+
+                            <span>
+                                Pending Amount:
+                                <strong
+                                    data-admin-withdrawals-pending-amount
+                                >
+                                    ৳0
+                                </strong>
+                            </span>
+                        </div>
+
+                        <div
+                            class="admin-inline-state"
+                            data-admin-withdrawals-loading
+                            hidden
+                            aria-live="polite"
+                        >
+                            Loading pending withdrawals...
+                        </div>
+
+                        <div
+                            class="admin-inline-state admin-error-state"
+                            data-admin-withdrawals-error
+                            hidden
+                            role="alert"
+                        >
+                            <span
+                                data-admin-withdrawals-error-message
+                            ></span>
+                        </div>
+
+                        <div
+                            class="admin-table-wrapper"
+                            tabindex="0"
+                            aria-label="Pending withdrawals table"
+                        >
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            User
+                                        </th>
+
+                                        <th>
+                                            Wallet
+                                        </th>
+
+                                        <th>
+                                            Number
+                                        </th>
+
+                                        <th>
+                                            Amount
+                                        </th>
+
+                                        <th>
+                                            Status
+                                        </th>
+
+                                        <th>
+                                            Date
+                                        </th>
+
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody
+                                    data-admin-withdrawals-body
+                                ></tbody>
+                            </table>
+                        </div>
+
+                        <div
+                            class="admin-empty-state"
+                            data-admin-withdrawals-empty
+                            hidden
+                        >
+                            No pending withdrawal is waiting for review.
+                        </div>
+
+                        <div class="admin-load-more">
+                            <button
+                                type="button"
+                                data-admin-withdrawals-load-more
+                                hidden
+                            >
+                                Load More Withdrawals
+                            </button>
+                        </div>
+
+                        <!-- WITHDRAWAL DETAILS -->
+
+                        <aside
+                            class="admin-details-panel"
+                            data-admin-withdrawal-details
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="adminWithdrawalDetailsTitle"
+                            tabindex="-1"
+                            hidden
+                            aria-hidden="true"
+                        >
+                            <div class="admin-details-header">
+                                <div>
+                                    <h3 id="adminWithdrawalDetailsTitle">
+                                        Withdrawal Review
+                                    </h3>
+
+                                    <p
+                                        data-admin-withdrawal-detail-id
+                                    >
+                                        —
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    aria-label="Close withdrawal details"
+                                    data-admin-withdrawal-details-close
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <div class="admin-details-content">
+                                <div class="admin-user-detail-profile">
+                                    <img
+                                        data-admin-withdrawal-detail-user-photo
+                                        alt="User profile"
+                                        referrerpolicy="no-referrer"
+                                    >
+
+                                    <div>
+                                        <strong
+                                            data-admin-withdrawal-detail-user-name
+                                        >
+                                            —
+                                        </strong>
+
+                                        <p
+                                            data-admin-withdrawal-detail-user-email
+                                        >
+                                            —
+                                        </p>
+
+                                        <small
+                                            data-admin-withdrawal-detail-user-uid
+                                        >
+                                            —
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Wallet
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-wallet
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Wallet Number
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-number
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Amount
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-amount
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Status
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-status
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Requested At
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-created
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Request ID
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-request-id
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Hold Transaction
+                                        </span>
+
+                                        <strong
+                                            data-admin-withdrawal-detail-hold-transaction
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <form
+                                    class="admin-form"
+                                    data-admin-withdrawal-approve-form
+                                >
+                                    <h4>
+                                        Approve Withdrawal
+                                    </h4>
+
+                                    <input
+                                        type="hidden"
+                                        name="withdrawalId"
+                                    >
+
+                                    <p class="admin-entry-note">
+                                        Verify that the requested amount has
+                                        been sent manually to the user's
+                                        requested bKash, Nagad or Rocket
+                                        account before approving. 11Play does
+                                        not require a payment-reference field
+                                        or a payment-confirmation checkbox for
+                                        the approval operation.
+                                    </p>
+
+                                    <label>
+                                        <span>
+                                            Admin Note
+                                            <small>
+                                                Optional
+                                            </small>
+                                        </span>
+
+                                        <textarea
+                                            name="adminNote"
+                                            rows="3"
+                                            maxlength="500"
+                                        ></textarea>
+                                    </label>
+
+                                    <button type="submit">
+                                        Approve Withdrawal
+                                    </button>
+                                </form>
+
+                                <form
+                                    class="admin-form admin-danger-form"
+                                    data-admin-withdrawal-reject-form
+                                >
+                                    <h4>
+                                        Reject Withdrawal
+                                    </h4>
+
+                                    <input
+                                        type="hidden"
+                                        name="withdrawalId"
+                                    >
+
+                                    <p class="admin-entry-note">
+                                        Rejecting a pending request releases
+                                        the Held Balance and refunds the amount
+                                        to the user's Available Balance.
+                                    </p>
+
+                                    <label>
+                                        <span>
+                                            Rejection Note
+                                            <small>
+                                                Optional
+                                            </small>
+                                        </span>
+
+                                        <textarea
+                                            name="adminNote"
+                                            rows="3"
+                                            maxlength="500"
+                                        ></textarea>
+                                    </label>
+
+                                    <button type="submit">
+                                        Reject and Refund
+                                    </button>
+                                </form>
+                            </div>
+                        </aside>
+                    </section>
+
+                    <!-- =====================================
+                         TRANSACTIONS PAGE
+                    ====================================== -->
+
+                    <section
+                        class="admin-page"
+                        data-admin-page="transactions"
+                        data-admin-transactions
+                        hidden
+                        aria-hidden="true"
+                    >
+                        <div class="admin-page-heading">
+                            <div>
+                                <h2>
+                                    Transactions and Audit Logs
+                                </h2>
+
+                                <p>
+                                    Review the permanent wallet ledger
+                                    and administrative action history.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                data-admin-transactions-refresh
+                            >
+                                Refresh Records
+                            </button>
+                        </div>
+
+                        <div
+                            class="admin-tab-list"
+                            role="tablist"
+                            aria-label="Transaction record views"
+                        >
+                            <button
+                                type="button"
+                                role="tab"
+                                class="is-active"
+                                aria-selected="true"
+                                data-admin-transactions-tab="transactions"
+                            >
+                                Wallet Transactions
+                            </button>
+
+                            <button
+                                type="button"
+                                role="tab"
+                                aria-selected="false"
+                                data-admin-transactions-tab="audit-logs"
+                            >
+                                Admin Audit Logs
+                            </button>
+                        </div>
+
+                        <div class="admin-toolbar">
+                            <label class="admin-search-field">
+                                <span>
+                                    Search Records
+                                </span>
+
+                                <input
+                                    type="search"
+                                    placeholder="User, transaction, action or reference"
+                                    autocomplete="off"
+                                    data-admin-transactions-search
+                                >
+                            </label>
+
+                            <label>
+                                <span>
+                                    Transaction Type
+                                </span>
+
+                                <select data-admin-transactions-type>
+                                    <option value="">
+                                        All Types
+                                    </option>
+
+                                    <option value="referral_reward">
+                                        Referral Reward
+                                    </option>
+
+                                    <option value="withdraw_hold">
+                                        Withdrawal Hold
+                                    </option>
+
+                                    <option value="withdraw_success">
+                                        Withdrawal Completed
+                                    </option>
+
+                                    <option value="withdraw_refund">
+                                        Withdrawal Refund
+                                    </option>
+
+                                    <option value="admin_adjustment">
+                                        Admin Adjustment
+                                    </option>
+                                </select>
+                            </label>
+
+                            <label>
+                                <span>
+                                    Direction
+                                </span>
+
+                                <select
+                                    data-admin-transactions-direction
+                                >
+                                    <option value="">
+                                        Credit and Debit
+                                    </option>
+
+                                    <option value="credit">
+                                        Credit
+                                    </option>
+
+                                    <option value="debit">
+                                        Debit
+                                    </option>
+                                </select>
+                            </label>
+
+                            <label>
+                                <span>
+                                    Audit Action
+                                </span>
+
+                                <select data-admin-audit-action>
+                                    <option value="">
+                                        All Audit Actions
+                                    </option>
+
+                                    <option value="referral_approved">
+                                        Referral Approved
+                                    </option>
+
+                                    <option value="referral_rejected">
+                                        Referral Rejected
+                                    </option>
+
+                                    <option value="withdrawal_approved">
+                                        Withdrawal Approved
+                                    </option>
+
+                                    <option value="withdrawal_rejected">
+                                        Withdrawal Rejected
+                                    </option>
+
+                                    <option value="wallet_adjusted">
+                                        Wallet Adjusted
+                                    </option>
+
+                                    <option value="profile_status_changed">
+                                        User Status Updated
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div
+                            class="admin-inline-state admin-error-state"
+                            data-admin-transactions-error
+                            hidden
+                            role="alert"
+                        >
+                            <span
+                                data-admin-transactions-error-message
+                            ></span>
+                        </div>
+
+                        <!-- TRANSACTION VIEW -->
+
+                        <div
+                            data-admin-transactions-view="transactions"
+                        >
+                            <div class="admin-summary-grid">
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Transactions
+                                    </span>
+
+                                    <strong
+                                        data-admin-transactions-total
+                                    >
+                                        0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Credit Amount
+                                    </span>
+
+                                    <strong
+                                        data-admin-transactions-credit-amount
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Debit Amount
+                                    </span>
+
+                                    <strong
+                                        data-admin-transactions-debit-amount
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+
+                                <article class="admin-summary-card">
+                                    <span>
+                                        Net Amount
+                                    </span>
+
+                                    <strong
+                                        data-admin-transactions-net-amount
+                                    >
+                                        ৳0
+                                    </strong>
+                                </article>
+                            </div>
+
+                            <div
+                                class="admin-inline-state"
+                                data-admin-transactions-loading
+                                hidden
+                                aria-live="polite"
+                            >
+                                Loading transactions...
+                            </div>
+
+                            <div
+                                class="admin-table-wrapper"
+                                tabindex="0"
+                                aria-label="Wallet transactions table"
+                            >
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                User
+                                            </th>
+
+                                            <th>
+                                                Type
+                                            </th>
+
+                                            <th>
+                                                Direction
+                                            </th>
+
+                                            <th>
+                                                Amount
+                                            </th>
+
+                                            <th>
+                                                Reference
+                                            </th>
+
+                                            <th>
+                                                Date
+                                            </th>
+
+                                            <th>
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody
+                                        data-admin-transactions-body
+                                    ></tbody>
+                                </table>
+                            </div>
+
+                            <div
+                                class="admin-empty-state"
+                                data-admin-transactions-empty
+                                hidden
+                            >
+                                No wallet transactions found.
+                            </div>
+
+                            <div class="admin-load-more">
+                                <button
+                                    type="button"
+                                    data-admin-transactions-load-more
+                                    hidden
+                                >
+                                    Load More Transactions
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AUDIT LOG VIEW -->
+
+                        <div
+                            data-admin-transactions-view="audit-logs"
+                            hidden
+                            aria-hidden="true"
+                        >
+                            <div class="admin-list-summary">
+                                <span>
+                                    Audit Records:
+                                    <strong data-admin-audit-total>
+                                        0
+                                    </strong>
+                                </span>
+                            </div>
+
+                            <div
+                                class="admin-inline-state"
+                                data-admin-audit-loading
+                                hidden
+                                aria-live="polite"
+                            >
+                                Loading audit logs...
+                            </div>
+
+                            <div
+                                class="admin-table-wrapper"
+                                tabindex="0"
+                                aria-label="Admin audit logs table"
+                            >
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Action
+                                            </th>
+
+                                            <th>
+                                                Entity
+                                            </th>
+
+                                            <th>
+                                                Entity ID
+                                            </th>
+
+                                            <th>
+                                                Admin
+                                            </th>
+
+                                            <th>
+                                                Note
+                                            </th>
+
+                                            <th>
+                                                Date
+                                            </th>
+
+                                            <th>
+                                                Details
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody
+                                        data-admin-audit-body
+                                    ></tbody>
+                                </table>
+                            </div>
+
+                            <div
+                                class="admin-empty-state"
+                                data-admin-audit-empty
+                                hidden
+                            >
+                                No Admin audit logs found.
+                            </div>
+
+                            <div class="admin-load-more">
+                                <button
+                                    type="button"
+                                    data-admin-audit-load-more
+                                    hidden
+                                >
+                                    Load More Audit Logs
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- TRANSACTION DETAILS -->
+
+                        <aside
+                            class="admin-details-panel"
+                            data-admin-transaction-details
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="adminTransactionDetailsTitle"
+                            tabindex="-1"
+                            hidden
+                            aria-hidden="true"
+                        >
+                            <div class="admin-details-header">
+                                <div>
+                                    <h3 id="adminTransactionDetailsTitle">
+                                        Transaction Details
+                                    </h3>
+
+                                    <p
+                                        data-admin-transaction-detail-id
+                                    >
+                                        —
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    aria-label="Close transaction details"
+                                    data-admin-transaction-details-close
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <div class="admin-details-content">
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            User
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-user
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            User ID
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-user-id
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Email
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-email
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Type
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-type
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Direction
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-direction
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Amount
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-amount
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Status
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-status
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Reference
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-reference
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Operation ID
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-operation
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Admin
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-admin
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Available Before
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-available-before
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Available After
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-available-after
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Held Before
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-held-before
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Held After
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-held-after
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Earned Before
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-earned-before
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Earned After
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-earned-after
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Withdrawn Before
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-withdrawn-before
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Total Withdrawn After
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-withdrawn-after
+                                        >
+                                            ৳0
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Created At
+                                        </span>
+
+                                        <strong
+                                            data-admin-transaction-detail-created
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="admin-note-block">
+                                    <span>
+                                        Note
+                                    </span>
+
+                                    <p
+                                        data-admin-transaction-detail-note
+                                    >
+                                        —
+                                    </p>
+                                </div>
+
+                                <div class="admin-code-block">
+                                    <span>
+                                        Metadata
+                                    </span>
+
+                                    <pre
+                                        data-admin-transaction-detail-metadata
+                                    >—</pre>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <!-- AUDIT DETAILS -->
+
+                        <aside
+                            class="admin-details-panel"
+                            data-admin-audit-details
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="adminAuditDetailsTitle"
+                            tabindex="-1"
+                            hidden
+                            aria-hidden="true"
+                        >
+                            <div class="admin-details-header">
+                                <div>
+                                    <h3 id="adminAuditDetailsTitle">
+                                        Audit Log Details
+                                    </h3>
+
+                                    <p data-admin-audit-detail-id>
+                                        —
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    aria-label="Close audit details"
+                                    data-admin-audit-details-close
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <div class="admin-details-content">
+                                <div class="admin-detail-grid">
+                                    <div>
+                                        <span>
+                                            Action
+                                        </span>
+
+                                        <strong
+                                            data-admin-audit-detail-action
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Entity Type
+                                        </span>
+
+                                        <strong
+                                            data-admin-audit-detail-entity-type
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Entity ID
+                                        </span>
+
+                                        <strong
+                                            data-admin-audit-detail-entity-id
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            User ID
+                                        </span>
+
+                                        <strong
+                                            data-admin-audit-detail-user-id
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Admin
+                                        </span>
+
+                                        <strong
+                                            data-admin-audit-detail-admin
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Date
+                                        </span>
+
+                                        <strong
+                                            data-admin-audit-detail-created
+                                        >
+                                            —
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="admin-note-block">
+                                    <span>
+                                        Admin Note
+                                    </span>
+
+                                    <p data-admin-audit-detail-note>
+                                        —
+                                    </p>
+                                </div>
+
+                                <div class="admin-code-block">
+                                    <span>
+                                        Before
+                                    </span>
+
+                                    <pre
+                                        data-admin-audit-detail-before
+                                    >—</pre>
+                                </div>
+
+                                <div class="admin-code-block">
+                                    <span>
+                                        After
+                                    </span>
+
+                                    <pre
+                                        data-admin-audit-detail-after
+                                    >—</pre>
+                                </div>
+
+                                <div class="admin-code-block">
+                                    <span>
+                                        Metadata
+                                    </span>
+
+                                    <pre
+                                        data-admin-audit-detail-metadata
+                                    >—</pre>
+                                </div>
+                            </div>
+                        </aside>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- =================================================
+             TOAST
+        ================================================== -->
+
+        <div
+            class="admin-toast"
+            data-admin-toast
+            data-toast-type="success"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            hidden
+        >
+            <span data-admin-toast-message></span>
+
+            <button
+                type="button"
+                aria-label="Close notification"
+                data-admin-toast-close
+            >
+                ×
+            </button>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         FIREBASE COMPAT SDK
+    ====================================================== -->
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"
+    ></script>
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"
+    ></script>
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"
+    ></script>
+
+    <!-- =====================================================
+         SHARED FIREBASE CONFIGURATION
+    ====================================================== -->
+
+    <script src="../js/config/firebase.config.js"></script>
+
+    <!-- =====================================================
+         SHARED FIRESTORE CLIENT
+
+         functions.client.js keeps its historical filename and
+         public API, but the Spark architecture uses direct
+         Firestore operations instead of deployed Cloud Functions.
+    ====================================================== -->
+
+    <script src="../js/account/firebase/functions.client.js"></script>
+
+    <!-- =====================================================
+         ADMIN MODULES
+
+         Required order:
+         API → Auth → Feature Modules → App Controller
+    ====================================================== -->
+
+    <script src="./js/admin.api.js"></script>
+    <script src="./js/admin.auth.js"></script>
+
+    <script src="./js/admin.users.js"></script>
+    <script src="./js/admin.referrals.js"></script>
+    <script src="./js/admin.withdrawals.js"></script>
+    <script src="./js/admin.transactions.js"></script>
+
+    <script src="./js/admin.app.js"></script>
+</body>
+</html>
