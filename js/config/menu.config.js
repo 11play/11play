@@ -96,7 +96,7 @@ window.MenuConfig = [
     type: "item",
     label: "💬 WhatsApp",
     page: "whatsapp",
-    url: "https://wa.me/8801XXXXXXXXX"
+    url: "https://wa.me/8801828282882"
   },
   {
     type: "item",
@@ -108,7 +108,7 @@ window.MenuConfig = [
     type: "item",
     label: "📘 Facebook",
     page: "facebook",
-    url: "https://facebook.com/your-page"
+    url: "https://facebook.com/app11play"
   },
   {
     type: "item",
@@ -120,7 +120,7 @@ window.MenuConfig = [
     type: "item",
     label: "🐦 Twitter",
     page: "twitter",
-    url: "https://twitter.com/your-handle"
+    url: "https://twitter.com/app11play"
   },
 
   // ================= DIVIDER =================
