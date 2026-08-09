@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="bn-BD">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <!--
+        নতুন রিভিউ তৈরির সময় নিচের placeholderগুলো পরিবর্তন করবেন:
+
+        {{SITE_NAME}}
+        {{REVIEW_TITLE}}
+        {{SEO_DESCRIPTION}}
+        {{SHORT_DESCRIPTION}}
+        {{SLUG}}
+        {{IMAGE_FILE}}
+        {{RATING}}
+        {{PUBLISHED_DATE}}
+        {{MODIFIED_DATE}}
+        {{AUTHOR_NAME}}
+    -->
+
+    <title>
+        {{REVIEW_TITLE}} | 11Play
+    </title>
+
+    <meta
+        name="description"
+        content="{{SEO_DESCRIPTION}}"
+    >
+
+    <meta
+        name="author"
+        content="{{AUTHOR_NAME}}"
+    >
+
+    <!--
+        এই template ফাইলটি যেন Google index না করে,
+        তাই এখানে noindex রাখা হয়েছে।
+
+        নতুন review page তৈরি করার সময় এটি পরিবর্তন করে লিখবেন:
+
+        index, follow, max-image-preview:large
+    -->
+    <meta
+        name="robots"
+        content="noindex, nofollow"
+    >
+
+    <meta
+        name="theme-color"
+        content="#ffffff"
+    >
+
+    <meta
+        name="color-scheme"
+        content="light"
+    >
+
+    <!-- Review Index Builder Metadata -->
+
+    <meta
+        name="review-slug"
+        content="{{SLUG}}"
+    >
+
+    <meta
+        name="review-site-name"
+        content="{{SITE_NAME}}"
+    >
+
+    <meta
+        name="review-title"
+        content="{{REVIEW_TITLE}}"
+    >
+
+    <meta
+        name="review-description"
+        content="{{SHORT_DESCRIPTION}}"
+    >
+
+    <meta
+        name="review-rating"
+        content="{{RATING}}"
+    >
+
+    <meta
+        name="review-image"
+        content="../../assets/{{IMAGE_FILE}}"
+    >
+
+    <meta
+        name="review-published"
+        content="{{PUBLISHED_DATE}}"
+    >
+
+    <meta
+        name="review-modified"
+        content="{{MODIFIED_DATE}}"
+    >
+
+    <meta
+        name="review-status"
+        content="published"
+    >
+
+    <link
+        rel="canonical"
+        href="https://11play.github.io/11play/reviews/sites/{{SLUG}}/"
+    >
+
+    <!-- Open Graph -->
+
+    <meta
+        property="og:type"
+        content="article"
+    >
+
+    <meta
+        property="og:site_name"
+        content="11Play"
+    >
+
+    <meta
+        property="og:locale"
+        content="bn_BD"
+    >
+
+    <meta
+        property="og:title"
+        content="{{REVIEW_TITLE}}"
+    >
+
+    <meta
+        property="og:description"
+        content="{{SEO_DESCRIPTION}}"
+    >
+
+    <meta
+        property="og:url"
+        content="https://11play.github.io/11play/reviews/sites/{{SLUG}}/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://11play.github.io/11play/reviews/assets/{{IMAGE_FILE}}"
+    >
+
+    <meta
+        property="article:published_time"
+        content="{{PUBLISHED_DATE}}"
+    >
+
+    <meta
+        property="article:modified_time"
+        content="{{MODIFIED_DATE}}"
+    >
+
+    <!-- Twitter -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="{{REVIEW_TITLE}}"
+    >
+
+    <meta
+        name="twitter:description"
+        content="{{SEO_DESCRIPTION}}"
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://11play.github.io/11play/reviews/assets/{{IMAGE_FILE}}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../review.css"
+    >
+
+    <!-- Structured Data -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "name": "{{REVIEW_TITLE}}",
+        "headline": "{{REVIEW_TITLE}}",
+        "description": "{{SEO_DESCRIPTION}}",
+        "datePublished": "{{PUBLISHED_DATE}}",
+        "dateModified": "{{MODIFIED_DATE}}",
+        "inLanguage": "bn-BD",
+        "url": "https://11play.github.io/11play/reviews/sites/{{SLUG}}/",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://11play.github.io/11play/reviews/assets/{{IMAGE_FILE}}"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "{{AUTHOR_NAME}}",
+            "url": "https://11play.github.io/11play/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "11Play",
+            "url": "https://11play.github.io/11play/"
+        },
+        "itemReviewed": {
+            "@type": "WebSite",
+            "name": "{{SITE_NAME}}",
+            "url": "https://11play.github.io/11play/reviews/sites/{{SLUG}}/"
+        },
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "{{RATING}}",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "11Play",
+                "item": "https://11play.github.io/11play/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "সকল রিভিউ",
+                "item": "https://11play.github.io/11play/reviews/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{REVIEW_TITLE}}",
+                "item": "https://11play.github.io/11play/reviews/sites/{{SLUG}}/"
+            }
+        ]
+    }
+    </script>
+</head>
+
+<body class="review-details-page">
+
+    <a
+        class="skip-link"
+        href="#review-main-content"
+    >
+        মূল কনটেন্টে যান
+    </a>
+
+    <!-- BUILD:HEADER_START -->
+
+    <header class="reviews-header">
+        <div class="reviews-header__inner">
+
+            <a
+                class="reviews-brand"
+                href="../../../index.html"
+                aria-label="11Play হোম পেইজ"
+            >
+                <span class="reviews-brand__name">
+                    11Play
+                </span>
+
+                <span class="reviews-brand__label">
+                    Reviews
+                </span>
+            </a>
+
+            <nav
+                class="reviews-navigation"
+                aria-label="প্রধান নেভিগেশন"
+            >
+                <a href="../../../index.html">
+                    হোম
+                </a>
+
+                <a href="../../index.html">
+                    সকল রিভিউ
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- BUILD:HEADER_END -->
+
+    <main
+        id="review-main-content"
+        class="review-details-main"
+    >
+
+        <div class="review-details-container">
+
+            <nav
+                class="review-breadcrumb"
+                aria-label="Breadcrumb"
+            >
+                <ol>
+                    <li>
+                        <a href="../../../index.html">
+                            হোম
+                        </a>
+                    </li>
+
+                    <li aria-hidden="true">
+                        ›
+                    </li>
+
+                    <li>
+                        <a href="../../index.html">
+                            রিভিউ
+                        </a>
+                    </li>
+
+                    <li aria-hidden="true">
+                        ›
+                    </li>
+
+                    <li aria-current="page">
+                        {{SITE_NAME}}
+                    </li>
+                </ol>
+            </nav>
+
+            <article
+                class="review-article"
+                itemscope
+                itemtype="https://schema.org/Review"
+            >
+
+                <header class="review-article-header">
+
+                    <p class="review-article-eyebrow">
+                        11Play Site Review
+                    </p>
+
+                    <h1 itemprop="headline">
+                        {{REVIEW_TITLE}}
+                    </h1>
+
+                    <p
+                        class="review-article-summary"
+                        itemprop="description"
+                    >
+                        {{SHORT_DESCRIPTION}}
+                    </p>
+
+                    <div class="review-article-meta">
+
+                        <span>
+                            প্রকাশ:
+                            <time
+                                datetime="{{PUBLISHED_DATE}}"
+                                itemprop="datePublished"
+                            >
+                                {{PUBLISHED_DATE}}
+                            </time>
+                        </span>
+
+                        <span>
+                            সর্বশেষ আপডেট:
+                            <time
+                                datetime="{{MODIFIED_DATE}}"
+                                itemprop="dateModified"
+                            >
+                                {{MODIFIED_DATE}}
+                            </time>
+                        </span>
+
+                        <span>
+                            লেখক:
+                            <strong itemprop="author">
+                                {{AUTHOR_NAME}}
+                            </strong>
+                        </span>
+
+                    </div>
+
+                </header>
+
+                <figure class="review-banner">
+
+                    <img
+                        src="../../assets/{{IMAGE_FILE}}"
+                        alt="{{SITE_NAME}} রিভিউ ব্যানার"
+                        width="1200"
+                        height="630"
+                        loading="eager"
+                        decoding="async"
+                        fetchpriority="high"
+                        itemprop="image"
+                    >
+
+                    <figcaption>
+                        {{SITE_NAME}} সম্পর্কে বিস্তারিত রিভিউ,
+                        তথ্য ও মূল্যায়ন।
+                    </figcaption>
+
+                </figure>
+
+                <section
+                    class="review-score-card"
+                    aria-labelledby="review-score-title"
+                >
+
+                    <div class="review-score-card__main">
+
+                        <p id="review-score-title">
+                            11Play রিভিউ রেটিং
+                        </p>
+
+                        <div
+                            class="review-score"
+                            aria-label="{{RATING}} আউট অফ ৫"
+                            itemprop="reviewRating"
+                            itemscope
+                            itemtype="https://schema.org/Rating"
+                        >
+                            <strong itemprop="ratingValue">
+                                {{RATING}}
+                            </strong>
+
+                            <span aria-hidden="true">
+                                / 5
+                            </span>
+
+                            <meta
+                                itemprop="bestRating"
+                                content="5"
+                            >
+
+                            <meta
+                                itemprop="worstRating"
+                                content="1"
+                            >
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="review-stars"
+                        aria-hidden="true"
+                    >
+                        ★★★★★
+                    </div>
+
+                </section>
+
+                <!--
+                    =====================================================
+                    UNIQUE REVIEW CONTENT START
+                    নতুন রিভিউ তৈরির সময় শুধু এই অংশের লেখা পরিবর্তন করবেন।
+                    =====================================================
+                -->
+
+                <div class="review-content">
+
+                    <section>
+                        <h2>
+                            {{SITE_NAME}} সম্পর্কে সংক্ষিপ্ত পরিচিতি
+                        </h2>
+
+                        <p>
+                            এখানে {{SITE_NAME}} সম্পর্কে সংক্ষিপ্ত,
+                            পরিষ্কার ও তথ্যভিত্তিক পরিচিতি লিখুন।
+                            সাইটটি কী ধরনের সেবা প্রদান করে, কার জন্য
+                            উপযোগী এবং এর প্রধান বৈশিষ্ট্য কী—তা এই
+                            অংশে ব্যাখ্যা করুন।
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>
+                            {{SITE_NAME}}-এর প্রধান বৈশিষ্ট্য
+                        </h2>
+
+                        <p>
+                            এই অংশে সাইটটির গুরুত্বপূর্ণ ফিচার,
+                            ব্যবহারযোগ্যতা, নিরাপত্তা, সেবা এবং
+                            অন্যান্য প্রয়োজনীয় বিষয় বিস্তারিতভাবে
+                            লিখুন।
+                        </p>
+
+                        <ul>
+                            <li>
+                                প্রথম গুরুত্বপূর্ণ বৈশিষ্ট্য লিখুন।
+                            </li>
+
+                            <li>
+                                দ্বিতীয় গুরুত্বপূর্ণ বৈশিষ্ট্য লিখুন।
+                            </li>
+
+                            <li>
+                                তৃতীয় গুরুত্বপূর্ণ বৈশিষ্ট্য লিখুন।
+                            </li>
+
+                            <li>
+                                চতুর্থ গুরুত্বপূর্ণ বৈশিষ্ট্য লিখুন।
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>
+                            ব্যবহারকারীর অভিজ্ঞতা
+                        </h2>
+
+                        <p>
+                            সাইটের ডিজাইন, নেভিগেশন, মোবাইল
+                            ব্যবহারযোগ্যতা, পেইজ লোডিং এবং সাধারণ
+                            ব্যবহারকারীর অভিজ্ঞতা এখানে ব্যাখ্যা
+                            করুন।
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>
+                            নিবন্ধন ও অ্যাকাউন্ট ব্যবস্থাপনা
+                        </h2>
+
+                        <p>
+                            অ্যাকাউন্ট তৈরির প্রক্রিয়া, প্রয়োজনীয়
+                            তথ্য, লগইন ব্যবস্থা, অ্যাকাউন্ট
+                            নিরাপত্তা এবং ব্যবহারকারীর নিয়ন্ত্রণ
+                            সম্পর্কে লিখুন।
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>
+                            পেমেন্ট ও লেনদেন ব্যবস্থা
+                        </h2>
+
+                        <p>
+                            সাইটে ব্যবহৃত পেমেন্ট পদ্ধতি, জমা,
+                            উত্তোলন, সম্ভাব্য সময়সীমা এবং
+                            লেনদেনসংক্রান্ত গুরুত্বপূর্ণ শর্ত এখানে
+                            লিখুন।
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>
+                            নিরাপত্তা ও বিশ্বাসযোগ্যতা
+                        </h2>
+
+                        <p>
+                            সাইটটির নিরাপত্তা ব্যবস্থা, তথ্য
+                            সুরক্ষা, পরিচয় যাচাই, নীতিমালা এবং
+                            ব্যবহারকারীর ঝুঁকি সম্পর্কে নিরপেক্ষ
+                            তথ্য দিন।
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>
+                            সুবিধা ও অসুবিধা
+                        </h2>
+
+                        <div class="review-pros-cons">
+
+                            <div class="review-pros">
+                                <h3>
+                                    সুবিধা
+                                </h3>
+
+                                <ul>
+                                    <li>
+                                        প্রথম সুবিধা লিখুন।
+                                    </li>
+
+                                    <li>
+                                        দ্বিতীয় সুবিধা লিখুন।
+                                    </li>
+
+                                    <li>
+                                        তৃতীয় সুবিধা লিখুন।
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="review-cons">
+                                <h3>
+                                    অসুবিধা
+                                </h3>
+
+                                <ul>
+                                    <li>
+                                        প্রথম অসুবিধা লিখুন।
+                                    </li>
+
+                                    <li>
+                                        দ্বিতীয় অসুবিধা লিখুন।
+                                    </li>
+
+                                    <li>
+                                        তৃতীয় অসুবিধা লিখুন।
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>
+                            আমাদের চূড়ান্ত মূল্যায়ন
+                        </h2>
+
+                        <p>
+                            এখানে {{SITE_NAME}} সম্পর্কে নিরপেক্ষ
+                            চূড়ান্ত মূল্যায়ন লিখুন। সাইটটি কার জন্য
+                            উপযোগী, ব্যবহার করার আগে কী বিবেচনা করা
+                            উচিত এবং সামগ্রিকভাবে এর অবস্থান কী—তা
+                            পরিষ্কার করুন।
+                        </p>
+                    </section>
+
+                </div>
+
+                <!--
+                    =====================================================
+                    UNIQUE REVIEW CONTENT END
+                    =====================================================
+                -->
+
+                <!-- BUILD:COMMON_FEATURES_START -->
+
+                <section
+                    class="review-common-features"
+                    aria-labelledby="review-common-features-title"
+                >
+
+                    <h2 id="review-common-features-title">
+                        রিভিউ পড়ার আগে গুরুত্বপূর্ণ তথ্য
+                    </h2>
+
+                    <div class="review-common-features__grid">
+
+                        <article>
+                            <h3>
+                                স্বাধীন মূল্যায়ন
+                            </h3>
+
+                            <p>
+                                11Play-এর রিভিউগুলো তথ্য,
+                                ব্যবহারযোগ্যতা, নিরাপত্তা এবং
+                                ব্যবহারকারীর অভিজ্ঞতা বিবেচনা করে
+                                প্রস্তুত করা হয়।
+                            </p>
+                        </article>
+
+                        <article>
+                            <h3>
+                                তথ্য যাচাই
+                            </h3>
+
+                            <p>
+                                কোনো সিদ্ধান্ত নেওয়ার আগে সংশ্লিষ্ট
+                                ওয়েবসাইটের সর্বশেষ নীতিমালা, শর্ত ও
+                                স্থানীয় নিয়ম যাচাই করুন।
+                            </p>
+                        </article>
+
+                        <article>
+                            <h3>
+                                পরিবর্তনশীল তথ্য
+                            </h3>
+
+                            <p>
+                                ওয়েবসাইটের সেবা, অফার, পেমেন্ট পদ্ধতি
+                                ও শর্ত সময়ের সঙ্গে পরিবর্তিত হতে
+                                পারে।
+                            </p>
+                        </article>
+
+                    </div>
+
+                </section>
+
+                <section
+                    class="review-faq"
+                    aria-labelledby="review-faq-title"
+                >
+
+                    <h2 id="review-faq-title">
+                        সাধারণ প্রশ্ন
+                    </h2>
+
+                    <details>
+                        <summary>
+                            এই রিভিউ কীভাবে প্রস্তুত করা হয়েছে?
+                        </summary>
+
+                        <p>
+                            সাইটের প্রকাশ্য তথ্য, ফিচার,
+                            ব্যবহারযোগ্যতা, নিরাপত্তা এবং প্রাসঙ্গিক
+                            শর্ত পর্যালোচনা করে রিভিউ প্রস্তুত করা
+                            হয়েছে।
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>
+                            রেটিং কি ভবিষ্যতে পরিবর্তিত হতে পারে?
+                        </summary>
+
+                        <p>
+                            হ্যাঁ। সাইটের সেবা, নীতিমালা,
+                            ব্যবহারযোগ্যতা বা নিরাপত্তায় গুরুত্বপূর্ণ
+                            পরিবর্তন এলে রেটিং আপডেট হতে পারে।
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>
+                            কোনো সাইট ব্যবহার করার আগে কী যাচাই করা উচিত?
+                        </summary>
+
+                        <p>
+                            সাইটের বর্তমান শর্ত, গোপনীয়তা নীতি,
+                            পেমেন্ট নিয়ম, ব্যবহারযোগ্যতা এবং স্থানীয়
+                            আইন যাচাই করা উচিত।
+                        </p>
+                    </details>
+
+                </section>
+
+                <nav
+                    class="review-page-actions"
+                    aria-label="রিভিউ পেইজ নেভিগেশন"
+                >
+                    <a
+                        class="review-page-actions__home"
+                        href="../../../index.html"
+                    >
+                        11Play হোমে ফিরুন
+                    </a>
+
+                    <a
+                        class="review-page-actions__reviews"
+                        href="../../index.html"
+                    >
+                        অন্য রিভিউ দেখুন
+                    </a>
+                </nav>
+
+                <!-- BUILD:COMMON_FEATURES_END -->
+
+            </article>
+
+        </div>
+
+    </main>
+
+    <!-- BUILD:FOOTER_START -->
+
+    <footer class="reviews-footer">
+        <div class="reviews-footer__inner">
+
+            <div>
+                <a
+                    class="reviews-footer__brand"
+                    href="../../../index.html"
+                >
+                    11Play
+                </a>
+
+                <p>
+                    স্বাধীন তথ্য, বিশ্লেষণ ও সাইট রিভিউ।
+                </p>
+            </div>
+
+            <nav
+                class="reviews-footer__navigation"
+                aria-label="ফুটার নেভিগেশন"
+            >
+                <a href="../../../index.html">
+                    হোম
+                </a>
+
+                <a href="../../index.html">
+                    সকল রিভিউ
+                </a>
+            </nav>
+
+            <p class="reviews-footer__copyright">
+                &copy; 2026 11Play। সর্বস্বত্ব সংরক্ষিত।
+            </p>
+
+        </div>
+    </footer>
+
+    <!-- BUILD:FOOTER_END -->
+
+</body>
+</html>
