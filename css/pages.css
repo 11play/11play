@@ -1,0 +1,111 @@
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.25s ease;
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+}
+
+/* =====================================================
+   👤 PROFILE UI (FINAL STABLE)
+===================================================== */
+
+.profile-page{
+  padding:16px;
+  color:#fff;
+  background:#071524;
+  min-height:100vh;
+}
+
+/* CARD */
+.profile-card{
+  background:#0d2236;
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+  margin-bottom:15px;
+}
+
+/* AVATAR */
+.avatar{
+  width:90px;
+  height:90px;
+  margin:auto;
+  border-radius:50%;
+  background:#1a3a55;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+}
+
+/* INPUT */
+.form-box{
+  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.form-box input,
+.form-box select{
+  padding:10px;
+  border-radius:8px;
+  border:none;
+}
+
+/* BUTTONS */
+.btn-login,
+.btn-save,
+.btn-logout{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  color:#fff;
+}
+
+.btn-login{ background:linear-gradient(90deg,#6a5cff,#4da3ff); }
+.btn-save{ background:#4da3ff; }
+.btn-logout{ background:red; }
+
+/* TIME */
+.time-card{
+  background:#0b1a2a;
+  padding:15px;
+  border-radius:15px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.box{
+  background:#102a44;
+  padding:12px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.box span{
+  display:block;
+  font-size:11px;
+  opacity:0.7;
+}
