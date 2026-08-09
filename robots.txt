@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Admin page search result-এ দেখাবে না
+Disallow: /11play/admin/
+
+# Firebase deployment configuration index করবে না
+Disallow: /11play/firebase.json
+
+# Review pages crawl ও index করার অনুমতি
+Allow: /11play/reviews/
+Allow: /11play/reviews/sites/
+
+# Main sitemap
+Sitemap: https://11play.github.io/11play/sitemap.xml
