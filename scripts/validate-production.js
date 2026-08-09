@@ -24,14 +24,11 @@ const CANONICAL_HOME = `${BASE_URL}/`;
 
 const CONFIG = Object.freeze({
     telegram: "https://t.me/play11play",
+    whatsapp: "https://wa.me/8801828282882",
     website: CANONICAL_HOME,
+    facebook: "https://facebook.com/app11play",
     youtube: "https://youtube.com/@11play-app",
-
-    intentionallyEmptySocialPages: new Set([
-        "whatsapp",
-        "facebook",
-        "twitter"
-    ]),
+    twitter: "https://twitter.com/app11play",
 
     ignoredDirectories: new Set([
         ".git",
@@ -311,8 +308,7 @@ function resolveLocalReference(
 
     if (
         !cleanReference ||
-        cleanReference ===
-            "."
+        cleanReference === "."
     ) {
         return null;
     }
@@ -341,16 +337,13 @@ function resolveLocalReference(
 
                 decodeURIComponent(
                     cleanReference.slice(
-                        "/11play/"
-                            .length
+                        "/11play/".length
                     )
                 )
             );
     } else if (
-        cleanReference ===
-            "/11play" ||
-        cleanReference ===
-            "/11play/"
+        cleanReference === "/11play" ||
+        cleanReference === "/11play/"
     ) {
         resolved =
             ROOT;
@@ -385,8 +378,7 @@ function resolveLocalReference(
         `${ROOT}${path.sep}`;
 
     if (
-        resolved !==
-            ROOT &&
+        resolved !== ROOT &&
         !resolved.startsWith(
             rootPrefix
         )
@@ -415,10 +407,8 @@ function localTargetExists(
 ) {
     if (
         !resolution ||
-        resolution
-            .invalidRootRelative ||
-        resolution
-            .outsideRoot
+        resolution.invalidRootRelative ||
+        resolution.outsideRoot
     ) {
         return false;
     }
@@ -481,8 +471,7 @@ function validateRequiredFiles() {
                         file
                     )
                 )
-                .size <=
-            0
+                .size <= 0
         ) {
             empty.push(
                 file
@@ -542,8 +531,7 @@ function parseJsonFile(
 }
 
 function validateJsonFiles() {
-    let valid =
-        true;
+    let valid = true;
 
     for (
         const file
@@ -554,8 +542,7 @@ function validateJsonFiles() {
                 file
             )
         ) {
-            valid =
-                false;
+            valid = false;
 
             continue;
         }
@@ -567,8 +554,7 @@ function validateJsonFiles() {
                 )
             );
         } catch (error) {
-            valid =
-                false;
+            valid = false;
 
             fail(
                 `${file} contains invalid JSON: ${error.message}`
@@ -863,11 +849,20 @@ function validateMenuConfig() {
         telegram:
             CONFIG.telegram,
 
+        whatsapp:
+            CONFIG.whatsapp,
+
         website:
             CONFIG.website,
 
+        facebook:
+            CONFIG.facebook,
+
         youtube:
-            CONFIG.youtube
+            CONFIG.youtube,
+
+        twitter:
+            CONFIG.twitter
     };
 
     for (
@@ -904,40 +899,6 @@ function validateMenuConfig() {
         } else {
             pass(
                 `Menu ${page} URL is production-ready.`
-            );
-        }
-    }
-
-    for (
-        const page
-        of CONFIG
-            .intentionallyEmptySocialPages
-    ) {
-        const item =
-            findMenuItem(
-                menu,
-                page
-            );
-
-        if (
-            !item
-        ) {
-            fail(
-                `Menu item missing: ${page}`
-            );
-        } else if (
-            String(
-                item.url ||
-                ""
-            ) !==
-            ""
-        ) {
-            fail(
-                `Menu ${page} URL must remain empty for now.`
-            );
-        } else {
-            pass(
-                `Menu ${page} URL is intentionally empty.`
             );
         }
     }
@@ -1218,8 +1179,7 @@ function validateJsonLd(
     } else {
         pass(
             `JSON-LD validation passed (${blockCount} block${
-                blockCount ===
-                1
+                blockCount === 1
                     ? ""
                     : "s"
             }).`
@@ -1603,8 +1563,7 @@ function validateReviewOutputs(
                     .statSync(
                         resolution.resolved
                     )
-                    .size <=
-                0
+                    .size <= 0
             ) {
                 failures.push(
                     `${file}: review-image is empty: ${image}`
@@ -1757,16 +1716,14 @@ function collectDateModifiedFromJsonLd(
                     /^\d{4}-\d{2}-\d{2}$/
                         .test(
                             String(
-                                current
-                                    .dateModified ||
+                                current.dateModified ||
                                 ""
                             )
                         )
                 ) {
                     dates.push(
                         String(
-                            current
-                                .dateModified
+                            current.dateModified
                         )
                     );
                 }
@@ -2106,8 +2063,7 @@ function run() {
     );
 
     if (
-        errorCount >
-        0
+        errorCount > 0
     ) {
         throw new Error(
             `Production validation failed with ${errorCount} error(s).`
@@ -2132,6 +2088,5 @@ try {
         }`
     );
 
-    process.exitCode =
-        1;
+    process.exitCode = 1;
 }
