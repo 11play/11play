@@ -9340,21 +9340,91 @@ service cloud.firestore {
           request.resource.data
         );
 
+      /*
+       * Route each activity transition through cheap discriminators
+       * before invoking the heavy validator.
+       *
+       * This prevents unrelated activity validators from being
+       * evaluated for the same write and reduces Firestore Rules
+       * expression usage.
+       */
       allow update: if
-        validOwnerActivityStart(
-          uid
-        ) ||
+        (
+          resource.data.get(
+            'activityPolicyVersion',
+            0
+          ) != 2 &&
 
-        validOwnerActivityResume(
-          uid
+          validActivityMigration(
+            uid
+          )
         ) ||
+        (
+          resource.data.get(
+            'activityPolicyVersion',
+            0
+          ) == 2 &&
 
-        validOwnerActivityCheckpoint(
-          uid
+          request.resource.data.get(
+            'currentDaySeconds',
+            -1
+          ) ==
+            resource.data.get(
+              'currentDaySeconds',
+              0
+            ) + 900 &&
+
+          validOwnerActivityCheckpoint(
+            uid
+          )
         ) ||
+        (
+          resource.data.get(
+            'activityPolicyVersion',
+            0
+          ) == 2 &&
 
-        validActivityMigration(
-          uid
+          request.resource.data.get(
+            'currentDaySeconds',
+            -1
+          ) ==
+            resource.data.get(
+              'currentDaySeconds',
+              0
+            ) &&
+
+          request.resource.data.get(
+            'currentDayStartedAt',
+            null
+          ) ==
+            resource.data.get(
+              'currentDayStartedAt',
+              null
+            ) &&
+
+          validOwnerActivityResume(
+            uid
+          )
+        ) ||
+        (
+          resource.data.get(
+            'activityPolicyVersion',
+            0
+          ) == 2 &&
+
+          request.resource.data.get(
+            'currentDaySeconds',
+            -1
+          ) == 0 &&
+
+          request.resource.data.get(
+            'currentDayStartedAt',
+            null
+          ) == request.time &&
+
+          validOwnerActivityStart(
+            uid
+          )
         );
 
       allow delete: if false;
@@ -9531,10 +9601,22 @@ service cloud.firestore {
     }
 
     match /profileSettings/{settingId} {
-      allow get, list: if
+      /*
+       * The deprecated publicAdminReferral document is excluded
+       * from the generic Admin rule as well.
+       *
+       * Collection-wide listing is disabled so that the deprecated
+       * document cannot be returned by a profileSettings query.
+       */
+
+      allow get: if
+        settingId != 'publicAdminReferral' &&
         isAdmin();
 
+      allow list: if false;
+
       allow create, update: if
+        settingId != 'publicAdminReferral' &&
         isAdmin();
 
       allow delete: if false;
