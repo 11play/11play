@@ -1,0 +1,1585 @@
+/* =========================================================
+   11PLAY — PROFILE / ACCOUNT PAGE FOUNDATION
+   File: css/account/profile.css
+
+   Contains:
+   - Shared account-page foundation
+   - Profile card
+   - Avatar and username
+   - Account information
+   - Paired information rows
+   - Mobile-number input and locked state
+   - Server-authoritative Eligible Active Days
+   - Authentication controls
+   - Loading and page-status states
+
+   Shared account sections are styled by:
+   css/account/account-sections.css
+========================================================= */
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root {
+    --profile-bg: #f3f6fb;
+    --profile-surface: #ffffff;
+    --profile-surface-soft: #f8fafc;
+
+    --profile-text: #142033;
+    --profile-text-soft: #667085;
+    --profile-text-muted: #98a2b3;
+
+    --profile-primary: #2563eb;
+    --profile-primary-dark: #1d4ed8;
+    --profile-primary-soft: #eff6ff;
+
+    --profile-success: #16a34a;
+    --profile-success-soft: #ecfdf3;
+
+    --profile-warning: #d97706;
+    --profile-warning-soft: #fffbeb;
+
+    --profile-danger: #dc2626;
+    --profile-danger-dark: #b91c1c;
+    --profile-danger-soft: #fef2f2;
+
+    --profile-border: #e4e7ec;
+    --profile-border-strong: #d0d5dd;
+
+    --profile-radius-sm: 10px;
+    --profile-radius-md: 16px;
+    --profile-radius-lg: 22px;
+
+    --profile-shadow:
+        0 10px 28px
+        rgba(15, 23, 42, 0.08);
+
+    --profile-shadow-hover:
+        0 14px 34px
+        rgba(15, 23, 42, 0.12);
+
+    --profile-transition: 180ms ease;
+}
+
+/* =========================================================
+   ACCOUNT VIEW BACKGROUND
+========================================================= */
+
+#app-view:has(> .profile-page) {
+    background: var(--profile-bg);
+}
+
+/* =========================================================
+   ACCOUNT PAGE FOUNDATION
+========================================================= */
+
+.profile-page,
+.profile-page *,
+.profile-page *::before,
+.profile-page *::after {
+    box-sizing: border-box;
+}
+
+.profile-page {
+    width: 100%;
+
+    min-height:
+        calc(
+            100dvh -
+            var(--topbar-height, 92px)
+        );
+
+    margin: 0;
+
+    padding:
+        18px
+        16px
+        calc(
+            104px +
+            env(safe-area-inset-bottom)
+        );
+
+    overflow: visible;
+
+    background: var(--profile-bg);
+    color: var(--profile-text);
+}
+
+.profile-page button,
+.profile-page input,
+.profile-page select,
+.profile-page textarea {
+    font: inherit;
+}
+
+.profile-page button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.profile-page img {
+    display: block;
+    max-width: 100%;
+}
+
+.profile-page [hidden] {
+    display: none !important;
+}
+
+/* =========================================================
+   SHARED CARD FOUNDATION
+========================================================= */
+
+.profile-card {
+    width: min(100%, 980px);
+
+    margin:
+        0
+        auto
+        16px;
+
+    padding: 22px;
+
+    border:
+        1px solid
+        var(--profile-border);
+
+    border-radius:
+        var(--profile-radius-lg);
+
+    background:
+        var(--profile-surface);
+
+    box-shadow:
+        var(--profile-shadow);
+
+    transition:
+        box-shadow
+        var(--profile-transition),
+        border-color
+        var(--profile-transition),
+        opacity
+        var(--profile-transition);
+}
+
+@media (hover: hover) {
+    .profile-card:hover {
+        border-color:
+            var(--profile-border-strong);
+
+        box-shadow:
+            var(--profile-shadow-hover);
+    }
+}
+
+#accountSectionsMount,
+.account-sections-mount {
+    width: min(100%, 980px);
+
+    margin:
+        0
+        auto;
+
+    padding: 0;
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.sr-only {
+    position: absolute !important;
+
+    width: 1px !important;
+    height: 1px !important;
+
+    padding: 0 !important;
+    margin: -1px !important;
+
+    overflow: hidden !important;
+
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+
+    white-space: nowrap !important;
+
+    border: 0 !important;
+}
+
+/* =========================================================
+   PROFILE INFORMATION CARD
+========================================================= */
+
+.profile-information-card {
+    overflow: hidden;
+}
+
+/* =========================================================
+   PROFILE HEADER
+========================================================= */
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding:
+        4px
+        0
+        20px;
+
+    text-align: center;
+}
+
+.profile-avatar {
+    position: relative;
+
+    width: 92px;
+    height: 92px;
+
+    flex:
+        0
+        0
+        92px;
+
+    border:
+        4px solid
+        var(--profile-surface);
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    display: grid;
+    place-items: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #eff6ff
+        );
+
+    box-shadow:
+        0 0 0 1px
+        var(--profile-border),
+        0 10px 24px
+        rgba(37, 99, 235, 0.16);
+}
+
+.profile-avatar-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-avatar-fallback {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    place-items: center;
+
+    color:
+        var(--profile-primary);
+
+    font-size: 34px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.profile-username {
+    max-width: 100%;
+
+    margin:
+        12px
+        0
+        0;
+
+    color:
+        var(--profile-text);
+
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   ACCOUNT INFORMATION LIST
+========================================================= */
+
+.profile-information-list {
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border-top:
+        1px solid
+        var(--profile-border);
+}
+
+.profile-information-row {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(118px, 34%)
+        minmax(0, 66%);
+
+    align-items: start;
+
+    gap: 14px;
+
+    padding:
+        14px
+        0;
+
+    border-bottom:
+        1px solid
+        var(--profile-border);
+
+    text-align: left;
+}
+
+.profile-information-label {
+    min-width: 0;
+
+    color:
+        var(--profile-text-soft);
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.45;
+
+    text-align: left;
+}
+
+.profile-information-value {
+    min-width: 0;
+
+    margin: 0;
+
+    color:
+        var(--profile-text);
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.45;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* =========================================================
+   PAIRED INFORMATION ROWS
+
+   Supports:
+   - Name + Registration Date
+   - Last Login + Account Type
+========================================================= */
+
+.profile-information-pair-row,
+.profile-information-paired-row,
+.profile-information-row.is-paired,
+.profile-information-row[data-paired-row] {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        ) !important;
+
+    align-items: stretch;
+
+    gap: 12px;
+}
+
+.profile-information-pair,
+.profile-information-paired-item,
+.profile-information-group {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 5px;
+
+    padding:
+        11px
+        12px;
+
+    border:
+        1px solid
+        var(--profile-border);
+
+    border-radius:
+        var(--profile-radius-sm);
+
+    background:
+        var(--profile-surface-soft);
+
+    text-align: left;
+}
+
+.profile-information-pair .profile-information-label,
+.profile-information-paired-item .profile-information-label,
+.profile-information-group .profile-information-label {
+    width: 100%;
+
+    color:
+        var(--profile-text-muted);
+
+    font-size: 12px;
+}
+
+.profile-information-pair .profile-information-value,
+.profile-information-paired-item .profile-information-value,
+.profile-information-group .profile-information-value {
+    width: 100%;
+
+    color:
+        var(--profile-text);
+
+    text-align: left;
+}
+
+/*
+ * Account Type is visually placed on the right,
+ * while its content remains readable and left-aligned.
+ */
+
+#profileAccountType {
+    text-transform: capitalize;
+}
+
+/* =========================================================
+   MOBILE NUMBER
+========================================================= */
+
+.profile-mobile-row {
+    display: block !important;
+
+    width: 100%;
+
+    padding:
+        14px
+        0;
+}
+
+.profile-mobile-row
+.profile-information-label {
+    display: block !important;
+
+    width: 100%;
+
+    margin-bottom: 8px;
+
+    color:
+        var(--profile-text-soft);
+
+    text-align: left;
+}
+
+.profile-mobile-row
+.profile-information-value {
+    width: 100%;
+
+    margin: 0;
+
+    text-align: left;
+}
+
+.profile-mobile-empty-state {
+    width: 100%;
+}
+
+.profile-phone-input-group {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        auto
+        minmax(0, 1fr)
+        auto;
+
+    align-items: stretch;
+
+    border:
+        1px solid
+        var(--profile-border-strong);
+
+    border-radius:
+        var(--profile-radius-sm);
+
+    overflow: hidden;
+
+    background:
+        var(--profile-surface);
+
+    transition:
+        border-color
+        var(--profile-transition),
+        box-shadow
+        var(--profile-transition);
+}
+
+.profile-phone-input-group:focus-within {
+    border-color:
+        var(--profile-primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.12);
+}
+
+.profile-phone-input-group:has(
+    .profile-phone-input.has-error
+) {
+    border-color:
+        var(--profile-danger);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(220, 38, 38, 0.1);
+}
+
+.profile-phone-prefix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        0
+        11px;
+
+    border-right:
+        1px solid
+        var(--profile-border);
+
+    background:
+        var(--profile-surface-soft);
+
+    color:
+        var(--profile-text);
+
+    font-size: 14px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+.profile-phone-input {
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+
+    border: 0;
+    outline: 0;
+
+    padding:
+        0
+        10px;
+
+    background:
+        var(--profile-surface);
+
+    color:
+        var(--profile-text);
+}
+
+.profile-phone-input::placeholder {
+    color:
+        var(--profile-text-muted);
+}
+
+.profile-phone-input.has-error {
+    color:
+        var(--profile-danger);
+}
+
+.profile-phone-input:disabled {
+    cursor: not-allowed;
+
+    background:
+        var(--profile-surface-soft);
+
+    color:
+        var(--profile-text-muted);
+}
+
+.profile-mobile-submit-button {
+    min-width: 78px;
+
+    border: 0;
+
+    border-left:
+        1px solid
+        var(--profile-border);
+
+    padding:
+        0
+        13px;
+
+    cursor: pointer;
+
+    background:
+        var(--profile-primary);
+
+    color: #ffffff;
+
+    font-weight: 800;
+
+    transition:
+        background
+        var(--profile-transition),
+        opacity
+        var(--profile-transition),
+        transform
+        var(--profile-transition);
+}
+
+@media (hover: hover) {
+    .profile-mobile-submit-button:hover:not(:disabled) {
+        background:
+            var(--profile-primary-dark);
+    }
+}
+
+.profile-mobile-submit-button:active:not(:disabled) {
+    transform:
+        translateY(1px);
+}
+
+.profile-mobile-submit-button:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.55;
+}
+
+/*
+ * Once the mobile number has been saved, ProfileUI adds
+ * the is-locked class. The button becomes permanently
+ * disabled and visually black.
+ */
+
+.profile-mobile-submit-button.is-locked,
+.profile-mobile-submit-button.is-locked:disabled {
+    cursor: not-allowed;
+
+    background: #111827;
+    color: #ffffff;
+
+    opacity: 1;
+
+    transform: none;
+}
+
+.profile-field-help,
+.profile-field-error {
+    display: block;
+
+    margin-top: 7px;
+
+    font-size: 11px;
+    line-height: 1.45;
+
+    text-align: left;
+}
+
+.profile-field-help {
+    color:
+        var(--profile-text-muted);
+}
+
+.profile-field-error {
+    color:
+        var(--profile-danger);
+
+    font-weight: 700;
+}
+
+.profile-mobile-saved-state {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    padding:
+        10px
+        12px;
+
+    border:
+        1px solid
+        var(--profile-border);
+
+    border-radius:
+        var(--profile-radius-sm);
+
+    background:
+        var(--profile-surface-soft);
+
+    text-align: left;
+}
+
+.profile-mobile-lock {
+    display: inline-grid;
+    place-items: center;
+
+    width: 25px;
+    height: 25px;
+
+    flex:
+        0
+        0
+        25px;
+
+    border-radius: 50%;
+
+    background:
+        var(--profile-primary-soft);
+
+    color:
+        var(--profile-primary);
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   ELIGIBLE ACTIVE DAYS
+
+   The existing six-box layout is intentionally preserved.
+   JavaScript now fills these boxes with:
+   - Active Days
+   - Required Days
+   - Remaining Days
+   - Progress
+   - Last Active
+   - Status
+========================================================= */
+
+.profile-using-time-section {
+    padding-top: 17px;
+}
+
+.profile-using-time-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 9px;
+
+    text-align: left;
+}
+
+.profile-using-time-heading span {
+    color:
+        var(--profile-text);
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+#usingTimeStatus,
+[data-using-time-status] {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 24px;
+
+    padding:
+        4px
+        8px;
+
+    border-radius: 999px;
+
+    background:
+        var(--profile-primary-soft);
+
+    color:
+        var(--profile-primary);
+
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+
+    text-align: right;
+}
+
+#usingTimeStatus.is-active,
+[data-using-time-status].is-active,
+#usingTimeStatus[data-completed="true"],
+[data-using-time-status][data-completed="true"] {
+    background:
+        var(--profile-success-soft);
+
+    color:
+        var(--profile-success);
+}
+
+#usingTimeStatus.is-inactive,
+[data-using-time-status].is-inactive {
+    background:
+        var(--profile-surface-soft);
+
+    color:
+        var(--profile-text-muted);
+}
+
+.profile-using-time-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            6,
+            minmax(0, 1fr)
+        );
+
+    gap: 6px;
+}
+
+.profile-time-box {
+    min-width: 0;
+
+    padding:
+        9px
+        3px;
+
+    border:
+        1px solid
+        var(--profile-border);
+
+    border-radius: 9px;
+
+    background:
+        var(--profile-surface-soft);
+
+    text-align: center;
+}
+
+.profile-time-box strong {
+    display: block;
+
+    color:
+        var(--profile-text);
+
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.1;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-time-box small {
+    display: block;
+
+    margin-top: 4px;
+
+    color:
+        var(--profile-text-muted);
+
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1.1;
+
+    white-space: nowrap;
+}
+
+/*
+ * Keep compatibility with both the previous class name and
+ * the current ProfileView progress-track class.
+ */
+
+.profile-using-time-progress,
+.profile-using-time-progress-track,
+[data-using-time-progress-container] {
+    width: 100%;
+
+    height: 8px;
+
+    margin-top: 12px;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    background:
+        var(--profile-border);
+}
+
+#usingTimeProgress,
+[data-using-time-progress] {
+    display: block;
+
+    width: 0%;
+    max-width: 100%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--profile-primary),
+            #60a5fa
+        );
+
+    transition:
+        width
+        260ms ease;
+}
+
+/* Native progress compatibility */
+
+progress#usingTimeProgress {
+    width: 100%;
+    height: 8px;
+
+    border: 0;
+
+    overflow: hidden;
+
+    appearance: none;
+}
+
+progress#usingTimeProgress::-webkit-progress-bar {
+    background:
+        var(--profile-border);
+
+    border-radius: 999px;
+}
+
+progress#usingTimeProgress::-webkit-progress-value {
+    background:
+        linear-gradient(
+            90deg,
+            var(--profile-primary),
+            #60a5fa
+        );
+
+    border-radius: 999px;
+}
+
+progress#usingTimeProgress::-moz-progress-bar {
+    background:
+        var(--profile-primary);
+
+    border-radius: 999px;
+}
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+.profile-auth-section {
+    margin-top: 17px;
+
+    padding-top: 17px;
+
+    border-top:
+        1px solid
+        var(--profile-border);
+}
+
+.profile-auth-button {
+    width: 100%;
+    min-height: 48px;
+
+    border: 0;
+    border-radius: 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding:
+        12px
+        16px;
+
+    cursor: pointer;
+
+    background:
+        var(--profile-primary);
+
+    color: #ffffff;
+
+    font-weight: 800;
+
+    transition:
+        transform
+        var(--profile-transition),
+        background
+        var(--profile-transition),
+        box-shadow
+        var(--profile-transition),
+        opacity
+        var(--profile-transition);
+}
+
+@media (hover: hover) {
+    .profile-auth-button:hover:not(:disabled) {
+        background:
+            var(--profile-primary-dark);
+
+        box-shadow:
+            0 8px 20px
+            rgba(37, 99, 235, 0.24);
+    }
+}
+
+.profile-auth-button:active:not(:disabled) {
+    transform:
+        translateY(1px);
+}
+
+/*
+ * Logout is a destructive account action,
+ * therefore it uses the Profile danger color.
+ */
+
+.profile-auth-button.is-logout {
+    background:
+        var(--profile-danger);
+}
+
+@media (hover: hover) {
+    .profile-auth-button.is-logout:hover:not(:disabled) {
+        background:
+            var(--profile-danger-dark);
+
+        box-shadow:
+            0 8px 20px
+            rgba(220, 38, 38, 0.24);
+    }
+}
+
+.profile-auth-button:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.65;
+
+    box-shadow: none;
+}
+
+.profile-auth-button-icon {
+    flex:
+        0
+        0
+        auto;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    background: #ffffff;
+    color: #4285f4;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   PAGE STATUS
+========================================================= */
+
+.profile-page-status {
+    width: min(100%, 980px);
+
+    margin:
+        0
+        auto
+        16px;
+
+    padding:
+        12px
+        14px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:
+        var(--profile-radius-sm);
+
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.profile-page-status.is-success,
+.profile-page-status[data-status-type="success"] {
+    border-color:
+        rgba(22, 163, 74, 0.2);
+
+    background:
+        var(--profile-success-soft);
+
+    color:
+        var(--profile-success);
+}
+
+.profile-page-status.is-error,
+.profile-page-status[data-status-type="error"] {
+    border-color:
+        rgba(220, 38, 38, 0.2);
+
+    background:
+        var(--profile-danger-soft);
+
+    color:
+        var(--profile-danger);
+}
+
+.profile-page-status.is-info,
+.profile-page-status[data-status-type="info"] {
+    border-color:
+        rgba(37, 99, 235, 0.2);
+
+    background:
+        var(--profile-primary-soft);
+
+    color:
+        var(--profile-primary);
+}
+
+/* =========================================================
+   LOADING STATE
+========================================================= */
+
+.profile-page.is-loading
+.profile-card {
+    opacity: 0.74;
+}
+
+.profile-page.is-loading
+button:disabled,
+.profile-auth-button.is-loading,
+.profile-mobile-submit-button.is-loading {
+    cursor: wait;
+}
+
+.profile-loading-spinner {
+    width: 18px;
+    height: 18px;
+
+    display: inline-block;
+
+    border:
+        2px solid
+        var(--profile-border-strong);
+
+    border-top-color:
+        var(--profile-primary);
+
+    border-radius: 50%;
+
+    animation:
+        profile-spinner
+        700ms
+        linear
+        infinite;
+}
+
+@keyframes profile-spinner {
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.profile-page button:focus-visible,
+.profile-page input:focus-visible,
+.profile-page select:focus-visible,
+.profile-page textarea:focus-visible,
+.profile-page [tabindex]:focus-visible {
+    outline:
+        3px solid
+        rgba(37, 99, 235, 0.25);
+
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   TABLET AND MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+    .profile-page {
+        min-height:
+            calc(
+                100dvh -
+                var(--topbar-height, 92px)
+            );
+
+        padding:
+            14px
+            10px
+            calc(
+                96px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+    .profile-card {
+        margin-bottom: 14px;
+
+        padding:
+            18px
+            14px;
+
+        border-radius:
+            var(--profile-radius-md);
+    }
+
+    .profile-avatar {
+        width: 82px;
+        height: 82px;
+
+        flex-basis: 82px;
+    }
+
+    .profile-avatar-fallback {
+        font-size: 30px;
+    }
+
+    .profile-username {
+        font-size: 22px;
+    }
+
+    .profile-information-row {
+        grid-template-columns:
+            minmax(100px, 34%)
+            minmax(0, 66%);
+
+        gap: 10px;
+
+        padding:
+            13px
+            0;
+    }
+
+    .profile-information-label,
+    .profile-information-value {
+        font-size: 13px;
+    }
+
+    .profile-information-pair-row,
+    .profile-information-paired-row,
+    .profile-information-row.is-paired,
+    .profile-information-row[data-paired-row] {
+        gap: 8px;
+    }
+
+    .profile-information-pair,
+    .profile-information-paired-item,
+    .profile-information-group {
+        padding:
+            10px
+            9px;
+    }
+
+    .profile-using-time-grid {
+        grid-template-columns:
+            repeat(
+                6,
+                minmax(0, 1fr)
+            );
+
+        gap: 5px;
+    }
+
+    .profile-time-box {
+        padding:
+            8px
+            2px;
+
+        border-radius: 8px;
+    }
+
+    .profile-time-box strong {
+        font-size: 14px;
+    }
+
+    .profile-time-box small {
+        font-size: 7px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+    .profile-information-row {
+        grid-template-columns:
+            minmax(92px, 34%)
+            minmax(0, 66%);
+
+        gap: 9px;
+    }
+
+    .profile-information-pair-row,
+    .profile-information-paired-row,
+    .profile-information-row.is-paired,
+    .profile-information-row[data-paired-row] {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            ) !important;
+
+        gap: 7px;
+    }
+
+    .profile-information-pair,
+    .profile-information-paired-item,
+    .profile-information-group {
+        padding:
+            9px
+            8px;
+    }
+
+    .profile-information-pair .profile-information-label,
+    .profile-information-paired-item .profile-information-label,
+    .profile-information-group .profile-information-label {
+        font-size: 10px;
+    }
+
+    .profile-information-pair .profile-information-value,
+    .profile-information-paired-item .profile-information-value,
+    .profile-information-group .profile-information-value {
+        font-size: 12px;
+    }
+
+    .profile-phone-input-group {
+        grid-template-columns:
+            auto
+            minmax(0, 1fr);
+    }
+
+    .profile-mobile-submit-button {
+        grid-column:
+            1 / -1;
+
+        width: 100%;
+        min-height: 40px;
+
+        border-top:
+            1px solid
+            var(--profile-border);
+
+        border-left: 0;
+    }
+
+    .profile-using-time-heading {
+        align-items: flex-start;
+    }
+
+    #usingTimeStatus,
+    [data-using-time-status] {
+        max-width: 48%;
+
+        white-space: normal;
+    }
+
+    .profile-using-time-grid {
+        gap: 4px;
+    }
+
+    .profile-time-box {
+        padding:
+            8px
+            1px;
+    }
+
+    .profile-time-box strong {
+        font-size: 13px;
+    }
+
+    .profile-time-box small {
+        font-size: 7px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+    .profile-page {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .profile-card {
+        padding:
+            16px
+            10px;
+    }
+
+    .profile-information-row {
+        grid-template-columns:
+            minmax(82px, 33%)
+            minmax(0, 67%);
+
+        gap: 7px;
+    }
+
+    .profile-information-label,
+    .profile-information-value {
+        font-size: 12px;
+    }
+
+    .profile-information-pair-row,
+    .profile-information-paired-row,
+    .profile-information-row.is-paired,
+    .profile-information-row[data-paired-row] {
+        gap: 5px;
+    }
+
+    .profile-information-pair,
+    .profile-information-paired-item,
+    .profile-information-group {
+        padding:
+            8px
+            6px;
+    }
+
+    .profile-using-time-grid {
+        gap: 3px;
+    }
+
+    .profile-time-box strong {
+        font-size: 12px;
+    }
+
+    .profile-time-box small {
+        font-size: 6px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-page *,
+    .profile-page *::before,
+    .profile-page *::after {
+        scroll-behavior:
+            auto !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+    }
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --profile-bg: #0b1020;
+        --profile-surface: #111827;
+        --profile-surface-soft: #182033;
+
+        --profile-text: #f8fafc;
+        --profile-text-soft: #cbd5e1;
+        --profile-text-muted: #94a3b8;
+
+        --profile-primary: #60a5fa;
+        --profile-primary-dark: #3b82f6;
+        --profile-primary-soft: #172554;
+
+        --profile-success: #4ade80;
+        --profile-success-soft: #052e16;
+
+        --profile-warning: #fbbf24;
+        --profile-warning-soft: #422006;
+
+        --profile-danger: #ef4444;
+        --profile-danger-dark: #dc2626;
+        --profile-danger-soft: #450a0a;
+
+        --profile-border: #263246;
+        --profile-border-strong: #3a475d;
+
+        --profile-shadow:
+            0 12px 34px
+            rgba(0, 0, 0, 0.22);
+
+        --profile-shadow-hover:
+            0 16px 40px
+            rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-avatar {
+        border-color:
+            var(--profile-surface);
+
+        background:
+            linear-gradient(
+                135deg,
+                #172554,
+                #1e293b
+            );
+    }
+
+    .profile-phone-input-group,
+    .profile-phone-prefix,
+    .profile-phone-input {
+        background:
+            var(--profile-surface);
+    }
+
+    .profile-phone-input:disabled {
+        background:
+            #0f172a;
+    }
+
+    .profile-mobile-submit-button.is-locked,
+    .profile-mobile-submit-button.is-locked:disabled {
+        background: #020617;
+        color: #ffffff;
+    }
+
+    .profile-auth-button-icon {
+        background: #ffffff;
+    }
+}
