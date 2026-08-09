@@ -1,0 +1,200 @@
+name: Validate and Deploy 11Play
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test-deploy:
+    name: Validate, Test, Build and Deploy
+
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 20
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+
+      # =====================================================
+      # SOURCE
+      # =====================================================
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      # =====================================================
+      # RUNTIME
+      # =====================================================
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Set up Java for Firestore Emulator
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      # =====================================================
+      # DEPENDENCIES
+      # =====================================================
+
+      - name: Install validation and test dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+
+      # =====================================================
+      # SOURCE VALIDATION
+      # =====================================================
+
+      - name: Validate JavaScript syntax
+        run: npm run check:js
+
+      # =====================================================
+      # STATIC REVIEW BUILD
+      # =====================================================
+
+      - name: Build static review pages
+        run: npm run build:reviews
+
+      # =====================================================
+      # PRODUCTION VALIDATION
+      # =====================================================
+
+      - name: Validate production source and generated files
+        run: npm run validate:production
+
+      # =====================================================
+      # FIRESTORE SECURITY RULES
+      # =====================================================
+
+      - name: Test Firestore Security Rules
+        run: npm run test:rules
+
+      # =====================================================
+      # PREPARE PUBLIC GITHUB PAGES ARTIFACT
+      # =====================================================
+
+      - name: Prepare GitHub Pages files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf _site
+          mkdir -p _site
+
+          rsync -a \
+            --exclude=".git/" \
+            --exclude=".github/" \
+            --exclude="_site/" \
+            --exclude="scripts/" \
+            --exclude="tests/" \
+            --exclude="functions/" \
+            --exclude="node_modules/" \
+            --exclude=".firebase/" \
+            --exclude=".firebaserc" \
+            --exclude=".gitignore" \
+            --exclude="firebase.json" \
+            --exclude="firebase-debug.log" \
+            --exclude="firebase-debug.*.log" \
+            --exclude="firestore-debug.log" \
+            --exclude="firestore-debug.*.log" \
+            --exclude="firestore.rules" \
+            --exclude="firestore.indexes.json" \
+            --exclude="package.json" \
+            --exclude="package-lock.json" \
+            --exclude="README.md" \
+            ./ _site/
+
+      # =====================================================
+      # PUBLIC ARTIFACT VALIDATION
+      # =====================================================
+
+      - name: Validate GitHub Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            "_site/index.html"
+            "_site/manifest.json"
+            "_site/robots.txt"
+            "_site/sitemap.xml"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "ERROR: Required public file is missing: $file"
+              exit 1
+            fi
+          done
+
+          forbidden_paths=(
+            "_site/.git"
+            "_site/.github"
+            "_site/scripts"
+            "_site/tests"
+            "_site/functions"
+            "_site/node_modules"
+            "_site/.firebase"
+            "_site/.firebaserc"
+            "_site/.gitignore"
+            "_site/firebase.json"
+            "_site/firestore.rules"
+            "_site/firestore.indexes.json"
+            "_site/package.json"
+            "_site/package-lock.json"
+            "_site/README.md"
+          )
+
+          for item in "${forbidden_paths[@]}"; do
+            if [ -e "$item" ]; then
+              echo "ERROR: Non-public repository resource found in Pages artifact: $item"
+              exit 1
+            fi
+          done
+
+          if find _site -type l -print -quit | grep -q .; then
+            echo "ERROR: Symbolic links are not allowed in the Pages artifact."
+            exit 1
+          fi
+
+          echo "GitHub Pages artifact validation passed."
+
+      # =====================================================
+      # GITHUB PAGES
+      # =====================================================
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
