@@ -1,0 +1,26 @@
+{
+  "name": "11PLAY - Smart Web Access",
+  "short_name": "11play",
+  "description": "One Web Platform for News, Casino, Login and Smart Content Access",
+
+  "start_url": "/11play/",
+  "scope": "/11play/",
+
+  "display": "standalone",
+  "background_color": "#0b0f1a",
+  "theme_color": "#0b66ff",
+  "orientation": "portrait-primary",
+
+  "icons": [
+    {
+      "src": "./assets/icon/11web-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icon/11web-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

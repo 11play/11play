@@ -1,0 +1,95 @@
+# =========================================================
+# 11PLAY — GIT IGNORE
+# =========================================================
+
+# -------------------------
+# Node / npm
+# -------------------------
+node_modules/
+
+# -------------------------
+# Firebase local / emulator
+# -------------------------
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+firestore-debug.*.log
+ui-debug.log
+ui-debug.*.log
+
+# -------------------------
+# GitHub Pages build output
+# -------------------------
+_site/
+
+# -------------------------
+# Test / coverage output
+# -------------------------
+coverage/
+.nyc_output/
+
+# -------------------------
+# Temporary files
+# -------------------------
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.orig
+*.rej
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -------------------------
+# OS-generated files
+# -------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -------------------------
+# Editor / IDE metadata
+# -------------------------
+.vscode/
+.idea/
+
+# -------------------------
+# Environment / secret files
+# -------------------------
+.env
+.env.*
+!.env.example
+
+# -------------------------
+# Local cache
+# -------------------------
+.cache/
+.parcel-cache/
+.eslintcache
+
+# =========================================================
+# IMPORTANT
+# =========================================================
+# Do NOT ignore:
+#
+# - firestore.rules
+# - firestore.indexes.json
+# - firebase.json
+# - .firebaserc
+# - package.json
+# - scripts/
+# - tests/
+# - reviews/
+# - 11play.apk
+#
+# These are intentional repository files.
+# =========================================================
