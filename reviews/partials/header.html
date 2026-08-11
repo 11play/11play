@@ -1,0 +1,49 @@
+<!--
+    11Play Review Header Partial
+
+    build-reviews.js নিচের placeholderগুলো প্রতিস্থাপন করবে:
+
+    {{HOME_URL}}
+    {{REVIEWS_URL}}
+-->
+
+<header class="reviews-header">
+    <div class="reviews-header__inner">
+
+        <a
+            class="reviews-brand"
+            href="{{HOME_URL}}"
+            aria-label="11Play হোম পেইজ"
+        >
+            <span class="reviews-brand__name">
+                11Play
+            </span>
+
+            <span class="reviews-brand__label">
+                Reviews
+            </span>
+        </a>
+
+        <nav
+            class="reviews-navigation"
+            aria-label="প্রধান নেভিগেশন"
+        >
+            <a
+                class="reviews-navigation__link"
+                href="{{HOME_URL}}"
+                data-navigation-link="home"
+            >
+                হোম
+            </a>
+
+            <a
+                class="reviews-navigation__link"
+                href="{{REVIEWS_URL}}"
+                data-navigation-link="reviews"
+            >
+                সকল রিভিউ
+            </a>
+        </nav>
+
+    </div>
+</header>

@@ -1,0 +1,82 @@
+<!--
+    11Play Review Footer Partial
+
+    build-reviews.js নিচের placeholderগুলো প্রতিস্থাপন করবে:
+
+    {{HOME_URL}}
+    {{REVIEWS_URL}}
+    {{CURRENT_YEAR}}
+-->
+
+<footer class="reviews-footer">
+
+    <div class="reviews-footer__inner">
+
+        <div class="reviews-footer__about">
+
+            <a
+                class="reviews-footer__brand"
+                href="{{HOME_URL}}"
+                aria-label="11Play হোম পেইজ"
+            >
+                11Play
+            </a>
+
+            <p class="reviews-footer__description">
+                স্বাধীন তথ্য, বিশ্লেষণ, রেটিং এবং বিস্তারিত
+                ওয়েবসাইট রিভিউ।
+            </p>
+
+        </div>
+
+        <nav
+            class="reviews-footer__navigation"
+            aria-label="ফুটার নেভিগেশন"
+        >
+
+            <a href="{{HOME_URL}}">
+                হোম
+            </a>
+
+            <a href="{{REVIEWS_URL}}">
+                সকল রিভিউ
+            </a>
+
+        </nav>
+
+        <div class="reviews-footer__notice">
+
+            <p>
+                প্রকাশিত তথ্য সময়ের সঙ্গে পরিবর্তিত হতে পারে।
+                কোনো সিদ্ধান্ত নেওয়ার আগে সংশ্লিষ্ট ওয়েবসাইটের
+                সর্বশেষ শর্ত ও নীতিমালা যাচাই করুন।
+            </p>
+
+        </div>
+
+        <div class="reviews-footer__bottom">
+
+            <p class="reviews-footer__copyright">
+                &copy;
+                <span>
+                    {{CURRENT_YEAR}}
+                </span>
+                11Play। সর্বস্বত্ব সংরক্ষিত।
+            </p>
+
+            <a
+                class="reviews-footer__back-to-top"
+                href="#top"
+                aria-label="পেইজের উপরে ফিরে যান"
+            >
+                উপরে যান
+                <span aria-hidden="true">
+                    ↑
+                </span>
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
