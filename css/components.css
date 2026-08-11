@@ -1,0 +1,1330 @@
+/* =====================================================
+   ROOT VARIABLES
+===================================================== */
+:root {
+  --primary: #0b2a4a;
+  --primary-dark: #071a2e;
+  --accent: #1aa3ff;
+  --text: #ffffff;
+  --muted: rgba(255,255,255,0.65);
+  --bg: #061a2b;
+}
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+#topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  z-index: 1000;
+}
+
+
+#topbar > div {
+
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+
+  background: linear-gradient(
+    180deg,
+    var(--primary),
+    var(--primary-dark)
+  );
+
+  box-shadow:
+    0 3px 14px rgba(0,0,0,0.35);
+}
+
+
+/* ================= TITLE ================= */
+
+.topbar-title {
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: var(--text);
+
+}
+
+
+/* ================= SUBTITLE ================= */
+
+.topbar-subtitle {
+
+  font-size: 11px;
+
+  color: var(--accent);
+
+  opacity: 0.85;
+
+}
+
+
+/* ================= ICONS ================= */
+
+#menuBtn,
+#searchBtn,
+#profileBtn {
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+
+  opacity: 0.95;
+
+  cursor: pointer;
+
+  border-radius: 50%;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+
+}
+
+
+/* Slight spacing from edges */
+
+#menuBtn {
+
+  margin-left: 4px;
+
+}
+
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#profileBtn {
+  margin-right: 4px;
+}
+
+
+/* Touch feedback */
+
+#menuBtn:active,
+#searchBtn:active,
+#profileBtn:active {
+
+  transform: scale(0.92);
+
+}
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -65vw;
+  width: 65vw;
+  max-width: 320px;
+  height: 100%;
+  background: var(--primary-dark);
+  transition: 0.3s ease;
+  z-index: 1200;
+  overflow-y: auto;
+  box-shadow: 10px 0 25px rgba(0,0,0,0.4);
+}
+
+#sideMenu.active {
+  left: 0;
+}
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  z-index: 1100;
+}
+
+#overlay.active {
+  display: block;
+}
+
+/* =====================================================
+   MAIN VIEW
+===================================================== */
+#app-view {
+  margin-top: 36px;
+  margin-bottom: 54px;
+  height: calc(100vh - 102px);
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* =====================================================
+   BOTTOM NAV - COMPACT STYLE
+===================================================== */
+
+#bottomNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 58px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background: rgba(8, 32, 58, 0.96);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+
+  border-radius: 22px 22px 0 0;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 -3px 15px rgba(0,0,0,0.22);
+
+  z-index: 1000;
+
+  padding: 0 8px;
+}
+
+
+/* ================= NAV ITEM ================= */
+
+#bottomNav .nav {
+
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 22px;
+
+  opacity: 0.7;
+
+  transform: translateY(3px);
+
+  transition: all 0.25s ease;
+
+}
+
+
+/* ================= ACTIVE ITEM ================= */
+
+#bottomNav .nav.active {
+
+  opacity: 1;
+
+  transform: translateY(-2px) scale(1.05);
+
+  background: rgba(0, 210, 255, 0.15);
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 10px rgba(0,210,255,0.3);
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width:480px){
+
+  #bottomNav {
+
+    height: 56px;
+
+    border-radius: 20px 20px 0 0;
+
+  }
+
+
+  #bottomNav .nav {
+
+    width: 44px;
+
+    height: 44px;
+
+    font-size: 21px;
+
+    transform: translateY(4px);
+
+  }
+
+
+  #bottomNav .nav.active {
+
+    transform: translateY(0) scale(1.05);
+
+  }
+
+}
+/* =====================================================
+   MENU HEADER (FIXED CLEAN VERSION)
+===================================================== */
+.menu-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* MENU ICON */
+.menu-icon {
+  font-size: 30px;
+  opacity: 0.85;
+}
+
+/* MENU TITLE */
+.menu-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* MENU SUBTITLE */
+.menu-subtitle {
+  font-size: 11px;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+/* =====================================================
+   MENU BODY
+===================================================== */
+.menu-body {
+  padding: 10px;
+}
+
+/* =====================================================
+   MENU ITEM
+===================================================== */
+.menu-item {
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* HOVER */
+.menu-item:hover {
+  background: rgba(26,163,255,0.12);
+}
+
+/* =====================================================
+   ACTIVE STATE FIX
+===================================================== */
+.menu-item.active {
+  background: rgba(26,163,255,0.22);
+  border-left: 3px solid var(--accent);
+}
+
+/* =====================================================
+   DIVIDER FIX (30% CENTER LINE)
+===================================================== */
+.menu-divider {
+  width: 90%;
+  height: 4px;
+  margin: 12px auto;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+/* =====================================================
+   VERSION TEXT
+===================================================== */
+.menu-version {
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.6;
+  padding: 10px;
+}
+
+/* =====================================================
+   🔥 PRODUCTION BANNER FIX (STABLE VERSION)
+   - NO ZOOM ISSUE
+   - PERFECT 16:9
+   - MOBILE SAFE
+===================================================== */
+
+
+/* =============================
+   ROOT
+============================= */
+#banner {
+  width: 100%;
+  padding: 6px 10px 0;
+  box-sizing: border-box;
+}
+
+
+/* =============================
+   VIEWPORT (IMPORTANT)
+============================= */
+#banner .banner-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+
+/* =============================
+   TRACK (FOR SWIPE LATER)
+============================= */
+#banner .banner-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.45s ease;
+}
+
+
+/* =============================
+   SLIDE
+============================= */
+#banner .banner-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+}
+
+
+/* =============================
+   CARD (REAL FIX)
+   👉 FIX: no aspect-ratio conflict
+============================= */
+#banner .banner-box {
+  width: 100%;
+  position: relative;
+
+  /* IMPORTANT FIX */
+  height: 0;
+  padding-top: 56.25%; /* 16:9 REAL RATIO */
+
+  overflow: hidden;
+  border-radius: 18px;
+  background: #091626;
+}
+
+
+/* =============================
+   IMAGE (NO CROPPING FIX FEEL)
+============================= */
+#banner .banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  display: block;
+}
+
+
+/* =============================
+   OVERLAY
+============================= */
+#banner .banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.08),
+    rgba(0,0,0,0.55)
+  );
+}
+
+
+/* =============================
+   CONTENT (LOCKED TO IMAGE)
+============================= */
+#banner .banner-content {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 2;
+}
+
+
+/* =============================
+   SITE NAME
+============================= */
+#banner .banner-site {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+
+/* =============================
+   BUTTON
+============================= */
+#banner .banner-btn {
+  display: inline-flex;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--accent);
+  color: #001018;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+
+/* =============================
+   DOTS
+============================= */
+#banner .banner-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 8px 0 4px;
+}
+
+#banner .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+}
+
+#banner .dot.active {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+}
+
+
+/* =============================
+   SEPARATOR FULL LINE FIX
+============================= */
+#banner .banner-divider {
+  width: 100%;
+  height: 1px;
+  margin: 6px 0 0;
+  background: rgba(255,255,255,0.15);
+}
+
+/* =====================================================
+   CATEGORY BAR CONTAINER
+   - horizontal scrollable row
+   - flex layout for tabs
+===================================================== */
+.category-bar {
+  display: flex;
+  gap: 10px;
+  padding: 8px 10px;
+  overflow-x: auto;
+}
+
+/* =====================================================
+   CATEGORY TAB BUTTON
+   - individual pill style buttons
+   - non-breaking horizontal layout
+===================================================== */
+.category-tab {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   ACTIVE TAB STATE
+   - highlights selected category
+   - changes background and text color
+===================================================== */
+.category-tab.active {
+  background: #1aa3ff;
+  color: #001018;
+}
+
+/* =====================================================
+🎰 CASINO GRID (PRODUCTION STABLE VERSION)
+SPA SAFE • 2 COLUMN FIXED • FLIP READY
+===================================================== */
+
+.casino-grid {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 10px;
+padding: 10px;
+align-items: start;
+}
+
+/* =====================================================
+🎴 CASINO CARD CONTAINER
+===================================================== */
+
+.casino-card {
+position: relative;
+width: 100%;
+aspect-ratio: 3 / 4;
+border-radius: 14px;
+overflow: hidden;
+cursor: pointer;
+
+transform-style: preserve-3d;
+perspective: 1000px;
+
+-webkit-tap-highlight-color: transparent;
+}
+
+/* =====================================================
+🎭 FRONT + BACK COMMON LAYER
+===================================================== */
+
+.card-front,
+.card-back {
+position: absolute;
+inset: 0;
+
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+
+transition: transform 0.6s ease;
+will-change: transform;
+}
+
+/* =====================================================
+🎯 FRONT SIDE (DEFAULT)
+===================================================== */
+
+.card-front {
+transform: rotateY(0deg);
+z-index: 2;
+}
+
+/* =====================================================
+🔁 BACK SIDE
+===================================================== */
+
+.card-back {
+transform: rotateY(180deg);
+z-index: 1;
+}
+
+/* =====================================================
+🔄 FLIP STATE
+===================================================== */
+
+.casino-card.flipped .card-front {
+transform: rotateY(180deg);
+}
+
+.casino-card.flipped .card-back {
+transform: rotateY(0deg);
+}
+
+/* =====================================================
+🖼️ IMAGES
+===================================================== */
+
+.casino-img,
+.back-img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+
+/* =====================================================
+🧩 OVERLAY COMMON FIX
+===================================================== */
+
+/* ONLY FRONT ELEMENTS WILL USE THIS */
+.card-front .site-name,
+.card-front .fav-btn,
+.card-front .play-btn {
+position: absolute;
+z-index: 10;
+user-select: none;
+}
+
+/* =====================================================
+🏷️ SITE NAME (FRONT ONLY)
+===================================================== */
+
+.card-front .site-name {
+left: 10px;
+bottom: 52px;
+
+color: #fff;
+font-weight: 800;
+font-size: 15px;
+line-height: 1.2;
+
+text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+}
+
+/* =====================================================
+❤️ FAVORITE BUTTON (FRONT ONLY)
+===================================================== */
+
+.card-front .fav-btn {
+top: 10px;
+right: 10px;
+
+width: 32px;
+height: 32px;
+
+border-radius: 50%;
+background: rgba(0,0,0,0.45);
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+font-size: 14px;
+
+backdrop-filter: blur(4px);
+}
+
+/* =====================================================
+▶️ PLAY BUTTON (FRONT ONLY)
+===================================================== */
+
+.card-front .play-btn {
+left: 50%;
+bottom: 10px;
+
+transform: translateX(-50%);
+
+padding: 10px 18px;
+
+border-radius: 12px;
+
+background: linear-gradient(135deg, #7c5cff, #4fd1ff);
+color: #001018;
+
+font-weight: 800;
+font-size: 13px;
+
+text-decoration: none;
+white-space: nowrap;
+
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-width: 110px;
+
+overflow: hidden;
+}
+
+/* =====================================================
+✨ SHINE EFFECT (PLAY BUTTON)
+===================================================== */
+
+.card-front .play-btn::before {
+content: "";
+position: absolute;
+top: 0;
+left: -120%;
+width: 120%;
+height: 100%;
+
+background: linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.5),
+transparent
+);
+
+animation: shine 2.5s infinite;
+}
+
+@keyframes shine {
+0% { left: -120%; }
+100% { left: 120%; }
+}
+
+/* =====================================================
+🚫 BACK SIDE CLEAN (NO UI ELEMENTS ALLOWED)
+===================================================== */
+
+.card-back .site-name,
+.card-back .fav-btn,
+.card-back .play-btn {
+display: none !important;
+}
+
+/* =====================================================
+   🔍 SEARCH PAGE FIX (PRODUCTION UI MATCH - FINAL STABLE)
+===================================================== */
+
+.search-page {
+  padding: 0;
+  margin: 0;
+}
+
+/* ================= SEARCH BOX WRAPPER ================= */
+.search-box-wrapper {
+  position: sticky;
+
+  /* 🔥 FIX: align exactly under topbar */
+  top: 0;
+
+  z-index: 999;
+
+  padding: 10px;
+
+  background: var(--bg);
+
+  /* smooth UI */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ================= INPUT STYLE ================= */
+.search-box-wrapper input {
+  width: 100%;
+  height: 44px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 14px;
+
+  padding: 0 14px;
+
+  font-size: 14px;
+  color: #fff;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ================= FOCUS FIX ================= */
+.search-box-wrapper input:focus {
+  outline: none;
+  border: 1px solid rgba(26, 163, 255, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ================= PLACEHOLDER ================= */
+.search-box-wrapper input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ================= SAFETY MOBILE FIX ================= */
+.search-box-wrapper input:focus-visible {
+  outline: none;
+}
+
+/* ================= FINAL ALIGN SAFETY ================= */
+.search-page {
+  padding-top: 0;
+}
+
+/* =====================================================
+   📜 HISTORY PAGE CSS
+   Scoped only for history page
+   Safe append at bottom of components.css
+===================================================== */
+
+/* Main page wrapper */
+.history-page {
+  padding: 14px 6px 24px;
+  color: #fff;
+}
+
+/* Top header */
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Page title */
+.history-title-main {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Clear all button */
+.history-clear-all-btn {
+  border: 1px solid rgba(26, 163, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(26,163,255,0.08);
+}
+
+/* Empty state */
+.history-empty {
+  text-align: center;
+  color: rgba(255,255,255,0.55);
+  font-size: 16px;
+  padding: 40px 10px;
+}
+
+/* History list */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Single history card */
+.history-card {
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(14,32,51,0.96), rgba(11,28,45,0.96));
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 12px 24px rgba(0,0,0,0.20),
+    inset 0 0 0 1px rgba(26,163,255,0.06);
+}
+
+/* Top section */
+.history-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 18px 10px;
+}
+
+/* Left info area */
+.history-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Site name */
+.history-site-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  word-break: break-word;
+}
+
+/* Date/time row */
+.history-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* Emoji/icon */
+.history-meta-icon {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Text */
+.history-meta-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.4;
+}
+
+/* Delete button */
+.history-delete-btn {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 16px;
+  background: rgba(255, 70, 70, 0.10);
+  color: #ff6a6a;
+  font-size: 26px;
+  cursor: pointer;
+  flex-shrink: 0;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bottom button wrapper */
+.history-card-bottom {
+  padding: 10px 18px 18px;
+}
+
+/* Play now button */
+.history-play-btn {
+  width: 100%;
+  border: none;
+  border-radius: 18px;
+  padding: 16px 18px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2fa8ff, #6f63ff);
+  box-shadow: 0 8px 18px rgba(44, 119, 255, 0.26);
+}
+
+/* Button press effect */
+.history-play-btn:active,
+.history-clear-all-btn:active,
+.history-delete-btn:active {
+  transform: scale(0.98);
+}
+
+/* Delete animation */
+.history-removing {
+  animation: historyFlashRemove 0.26s ease forwards;
+}
+
+@keyframes historyFlashRemove {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    background: linear-gradient(180deg, rgba(14,32,51,0.96), rgba(11,28,45,0.96));
+  }
+  35% {
+    background: rgba(255, 70, 70, 0.18);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+    background: rgba(255, 70, 70, 0.10);
+  }
+}
+
+/* Small device tuning */
+@media (max-width: 480px) {
+  .history-title-main {
+    font-size: 24px;
+  }
+
+  .history-site-name {
+    font-size: 19px;
+  }
+
+  .history-meta-text {
+    font-size: 13px;
+  }
+
+  .history-delete-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 23px;
+  }
+
+  .history-play-btn {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+}
+
+/* =====================================================
+   📰 NEWS PAGE STYLES (PRODUCTION FINAL v1.2 STABLE)
+   MOBILE SAFE • NO OVERFLOW • SPA READY
+===================================================== */
+
+/* ================= ROOT ================= */
+.news-page {
+  padding: 14px 10px 80px;
+  color: #fff;
+  overflow-x: hidden; /* FIX: horizontal scroll bug */
+  box-sizing: border-box;
+}
+
+/* ================= HEADER ================= */
+.news-header {
+  text-align: left;
+  margin-bottom: 14px;
+}
+
+.news-header h2 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.news-header p {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+/* ================= FEED ================= */
+.news-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ================= CARD ================= */
+.news-card {
+  background: linear-gradient(180deg, #0d2236, #081726);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  padding: 12px;
+
+  position: relative;
+  box-sizing: border-box;
+  transform: translateZ(0);
+}
+
+/* ================= IMAGE ================= */
+.news-image {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.news-image img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+/* ================= TITLE ================= */
+.news-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #ffffff;
+
+  word-break: break-word;
+}
+
+/* ================= DESCRIPTION ================= */
+.news-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.78);
+
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ================= SEE MORE BUTTON ================= */
+.see-more-btn,
+.news-see-more,
+.see-more {
+  margin-top: 10px;
+  background: transparent;
+  border: 1px solid rgba(26,163,255,0.5);
+  color: #1aa3ff;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* mobile full width */
+@media (max-width: 480px) {
+  .see-more-btn,
+  .news-see-more,
+  .see-more {
+    width: 100%;
+  }
+}
+
+.see-more-btn:active,
+.news-see-more:active,
+.see-more:active {
+  transform: scale(0.97);
+}
+
+.see-more-btn:hover,
+.news-see-more:hover,
+.see-more:hover {
+  background: rgba(26,163,255,0.08);
+}
+
+/* ================= CTA BUTTON (REGISTER NOW FIX) ================= */
+.news-link,
+.cta-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #00c853, #009624);
+  color: #fff;
+  text-decoration: none;
+
+  font-weight: 700;
+  font-size: 13px;
+
+  text-align: center;
+  transition: 0.2s ease;
+}
+
+.news-link:active,
+.cta-btn:active {
+  transform: scale(0.97);
+}
+
+/* ================= SEPARATOR ================= */
+.news-separator {
+  margin-top: 14px;
+  height: 1px;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+}
+
+/* ================= EMPTY STATE ================= */
+.news-empty {
+  text-align: center;
+  padding: 40px 10px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+
+  .news-header h2 {
+    font-size: 22px;
+  }
+
+  .news-title {
+    font-size: 16px;
+  }
+
+  .news-description {
+    font-size: 13px;
+  }
+}
+
+/* =====================================================
+   APP LOADER
+===================================================== */
+body.app-booting {
+  overflow: hidden;
+}
+
+.app-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #03172e 0%, #021225 100%);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.app-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-content {
+  width: 100%;
+  max-width: 320px;
+  padding: 24px;
+  text-align: center;
+}
+
+.loader-logo {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  border-radius: 22px;
+  margin: 0 auto 18px;
+  display: block;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+}
+
+.loader-title {
+  margin: 0 0 18px;
+  color: #cfd8ff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.loader-bar-bg {
+  width: 180px;
+  height: 4px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.15);
+}
+
+.loader-bar {
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, #0b66ff, #3aa0ff);
+  border-radius: 999px;
+  animation: loaderMove 1s infinite ease-in-out;
+}
+
+@keyframes loaderMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
