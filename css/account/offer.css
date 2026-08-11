@@ -1,0 +1,1556 @@
+/* =========================================================
+   11PLAY — OFFER PAGE
+   File: css/account/offer.css
+
+   Contains:
+   - Offer page foundation
+   - Offer card
+   - Offer title and description
+   - Offer image
+   - Rules / How to Claim
+   - Important note
+   - Live Chat button
+   - Register Now button
+   - Disabled / loading states
+   - Offer unavailable state
+   - Page status
+   - Responsive layout
+   - Dark mode
+
+   Important:
+   - This file styles only the Offer page
+   - No Profile or other page design is modified
+========================================================= */
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root {
+    --offer-bg: #f3f6fb;
+    --offer-surface: #ffffff;
+    --offer-surface-soft: #f8fafc;
+
+    --offer-text: #142033;
+    --offer-text-soft: #667085;
+    --offer-text-muted: #98a2b3;
+
+    --offer-primary: #2563eb;
+    --offer-primary-dark: #1d4ed8;
+    --offer-primary-soft: #eff6ff;
+
+    --offer-success: #16a34a;
+    --offer-success-soft: #ecfdf3;
+
+    --offer-warning: #d97706;
+    --offer-warning-soft: #fffbeb;
+
+    --offer-danger: #dc2626;
+    --offer-danger-soft: #fef2f2;
+
+    --offer-border: #e4e7ec;
+    --offer-border-strong: #d0d5dd;
+
+    --offer-radius-sm: 10px;
+    --offer-radius-md: 16px;
+    --offer-radius-lg: 22px;
+
+    --offer-shadow:
+        0 10px 28px
+        rgba(15, 23, 42, 0.08);
+
+    --offer-shadow-hover:
+        0 14px 34px
+        rgba(15, 23, 42, 0.12);
+
+    --offer-transition:
+        180ms ease;
+}
+
+/* =========================================================
+   APP VIEW BACKGROUND
+========================================================= */
+
+#app-view:has(> .offer-page) {
+    background:
+        var(--offer-bg);
+}
+
+/* =========================================================
+   PAGE FOUNDATION
+========================================================= */
+
+.offer-page,
+.offer-page *,
+.offer-page *::before,
+.offer-page *::after {
+    box-sizing:
+        border-box;
+}
+
+.offer-page {
+    width:
+        100%;
+
+    min-height:
+        calc(
+            100dvh -
+            var(
+                --topbar-height,
+                92px
+            )
+        );
+
+    margin:
+        0;
+
+    padding:
+        18px
+        16px
+        calc(
+            104px +
+            env(
+                safe-area-inset-bottom
+            )
+        );
+
+    background:
+        var(--offer-bg);
+
+    color:
+        var(--offer-text);
+}
+
+.offer-page button,
+.offer-page input,
+.offer-page select,
+.offer-page textarea {
+    font:
+        inherit;
+}
+
+.offer-page button {
+    -webkit-tap-highlight-color:
+        transparent;
+}
+
+.offer-page img {
+    display:
+        block;
+
+    max-width:
+        100%;
+}
+
+.offer-page [hidden] {
+    display:
+        none !important;
+}
+
+/* =========================================================
+   OFFER CARD
+========================================================= */
+
+.offer-card {
+    width:
+        min(
+            100%,
+            980px
+        );
+
+    margin:
+        0
+        auto
+        16px;
+
+    padding:
+        22px;
+
+    border:
+        1px solid
+        var(--offer-border);
+
+    border-radius:
+        var(--offer-radius-lg);
+
+    background:
+        var(--offer-surface);
+
+    box-shadow:
+        var(--offer-shadow);
+
+    overflow:
+        hidden;
+
+    transition:
+        border-color
+        var(--offer-transition),
+        box-shadow
+        var(--offer-transition),
+        opacity
+        var(--offer-transition);
+}
+
+@media (hover: hover) {
+    .offer-card:hover {
+        border-color:
+            var(--offer-border-strong);
+
+        box-shadow:
+            var(--offer-shadow-hover);
+    }
+}
+
+/* =========================================================
+   OFFER HEADER
+========================================================= */
+
+.offer-header {
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        14px;
+
+    margin-bottom:
+        18px;
+}
+
+.offer-header-icon {
+    width:
+        48px;
+
+    height:
+        48px;
+
+    flex:
+        0
+        0
+        48px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        rgba(
+            37,
+            99,
+            235,
+            0.14
+        );
+
+    border-radius:
+        14px;
+
+    background:
+        var(--offer-primary-soft);
+
+    font-size:
+        23px;
+
+    line-height:
+        1;
+}
+
+.offer-header-content {
+    min-width:
+        0;
+
+    flex:
+        1;
+}
+
+.offer-eyebrow {
+    display:
+        block;
+
+    margin-bottom:
+        4px;
+
+    color:
+        var(--offer-primary);
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.3;
+
+    letter-spacing:
+        0.06em;
+
+    text-transform:
+        uppercase;
+}
+
+.offer-title {
+    margin:
+        0;
+
+    color:
+        var(--offer-text);
+
+    font-size:
+        25px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.25;
+
+    overflow-wrap:
+        anywhere;
+}
+
+.offer-description {
+    margin:
+        8px
+        0
+        0;
+
+    color:
+        var(--offer-text-soft);
+
+    font-size:
+        14px;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.65;
+}
+
+/* =========================================================
+   OFFER IMAGE
+========================================================= */
+
+.offer-image-container {
+    width:
+        100%;
+
+    margin:
+        0
+        0
+        20px;
+
+    border:
+        1px solid
+        var(--offer-border);
+
+    border-radius:
+        var(--offer-radius-md);
+
+    overflow:
+        hidden;
+
+    background:
+        var(--offer-surface-soft);
+
+    box-shadow:
+        0 5px 16px
+        rgba(
+            15,
+            23,
+            42,
+            0.05
+        );
+}
+
+.offer-image {
+    width:
+        100%;
+
+    height:
+        auto;
+
+    min-height:
+        160px;
+
+    max-height:
+        460px;
+
+    object-fit:
+        cover;
+
+    object-position:
+        center;
+
+    background:
+        var(--offer-surface-soft);
+
+    opacity:
+        0;
+
+    transition:
+        opacity
+        220ms ease;
+}
+
+.offer-image.is-loaded {
+    opacity:
+        1;
+}
+
+.offer-image.is-error {
+    opacity:
+        0;
+}
+
+.offer-image-container.has-image {
+    background:
+        transparent;
+}
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.offer-section-title {
+    margin:
+        0
+        0
+        12px;
+
+    color:
+        var(--offer-text);
+
+    font-size:
+        17px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.35;
+}
+
+/* =========================================================
+   RULES
+========================================================= */
+
+.offer-rules-section {
+    width:
+        100%;
+
+    margin-top:
+        2px;
+
+    padding-top:
+        18px;
+
+    border-top:
+        1px solid
+        var(--offer-border);
+}
+
+.offer-rules-list {
+    list-style:
+        none;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    display:
+        grid;
+
+    gap:
+        10px;
+}
+
+.offer-rule-item {
+    width:
+        100%;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        30px
+        minmax(
+            0,
+            1fr
+        );
+
+    align-items:
+        start;
+
+    gap:
+        10px;
+
+    padding:
+        11px
+        12px;
+
+    border:
+        1px solid
+        var(--offer-border);
+
+    border-radius:
+        var(--offer-radius-sm);
+
+    background:
+        var(--offer-surface-soft);
+
+    color:
+        var(--offer-text);
+
+    text-align:
+        left;
+}
+
+.offer-rule-number {
+    width:
+        28px;
+
+    height:
+        28px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--offer-primary-soft);
+
+    color:
+        var(--offer-primary);
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1;
+}
+
+.offer-rule-text {
+    min-width:
+        0;
+
+    padding-top:
+        3px;
+
+    color:
+        var(--offer-text-soft);
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+    line-height:
+        1.55;
+
+    overflow-wrap:
+        anywhere;
+}
+
+/* =========================================================
+   IMPORTANT NOTE
+========================================================= */
+
+.offer-important-note {
+    width:
+        100%;
+
+    margin-top:
+        18px;
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        11px;
+
+    padding:
+        13px
+        14px;
+
+    border:
+        1px solid
+        rgba(
+            217,
+            119,
+            6,
+            0.22
+        );
+
+    border-radius:
+        var(--offer-radius-sm);
+
+    background:
+        var(--offer-warning-soft);
+
+    color:
+        var(--offer-text);
+}
+
+.offer-important-note-icon {
+    width:
+        27px;
+
+    height:
+        27px;
+
+    flex:
+        0
+        0
+        27px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--offer-warning);
+
+    color:
+        #ffffff;
+
+    font-size:
+        14px;
+
+    font-weight:
+        900;
+
+    line-height:
+        1;
+}
+
+.offer-important-note-content {
+    min-width:
+        0;
+
+    flex:
+        1;
+}
+
+.offer-important-note-content strong {
+    display:
+        block;
+
+    margin-bottom:
+        3px;
+
+    color:
+        var(--offer-warning);
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+}
+
+.offer-important-note-content p {
+    margin:
+        0;
+
+    color:
+        var(--offer-text-soft);
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
+
+    line-height:
+        1.55;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.offer-actions {
+    width:
+        100%;
+
+    margin-top:
+        20px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    gap:
+        10px;
+}
+
+.offer-action-button {
+    width:
+        100%;
+
+    min-height:
+        48px;
+
+    border:
+        0;
+
+    border-radius:
+        14px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        9px;
+
+    padding:
+        12px
+        15px;
+
+    cursor:
+        pointer;
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.3;
+
+    text-align:
+        center;
+
+    transition:
+        background
+        var(--offer-transition),
+        color
+        var(--offer-transition),
+        border-color
+        var(--offer-transition),
+        box-shadow
+        var(--offer-transition),
+        transform
+        var(--offer-transition),
+        opacity
+        var(--offer-transition);
+}
+
+.offer-action-button:active:not(:disabled) {
+    transform:
+        translateY(
+            1px
+        );
+}
+
+.offer-action-button:disabled,
+.offer-action-button[
+    aria-disabled="true"
+] {
+    cursor:
+        not-allowed;
+
+    opacity:
+        0.55;
+
+    transform:
+        none;
+
+    box-shadow:
+        none;
+}
+
+.offer-action-icon {
+    flex:
+        0
+        0
+        auto;
+
+    font-size:
+        17px;
+
+    line-height:
+        1;
+}
+
+/* =========================================================
+   LIVE CHAT BUTTON
+========================================================= */
+
+.offer-live-chat-button {
+    border:
+        1px solid
+        var(--offer-border-strong);
+
+    background:
+        var(--offer-surface);
+
+    color:
+        var(--offer-text);
+}
+
+@media (hover: hover) {
+    .offer-live-chat-button:hover:not(:disabled) {
+        border-color:
+            var(--offer-primary);
+
+        background:
+            var(--offer-primary-soft);
+
+        color:
+            var(--offer-primary);
+    }
+}
+
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
+.offer-register-button {
+    background:
+        var(--offer-primary);
+
+    color:
+        #ffffff;
+
+    box-shadow:
+        0 7px 18px
+        rgba(
+            37,
+            99,
+            235,
+            0.19
+        );
+}
+
+@media (hover: hover) {
+    .offer-register-button:hover:not(:disabled) {
+        background:
+            var(--offer-primary-dark);
+
+        box-shadow:
+            0 9px 22px
+            rgba(
+                37,
+                99,
+                235,
+                0.25
+            );
+    }
+}
+
+.offer-action-arrow {
+    flex:
+        0
+        0
+        auto;
+
+    font-size:
+        18px;
+
+    line-height:
+        1;
+}
+
+/* =========================================================
+   ACTION LOADING
+========================================================= */
+
+.offer-action-button.is-loading {
+    cursor:
+        wait;
+
+    opacity:
+        0.72;
+}
+
+.offer-action-button.is-loading::before {
+    content:
+        "";
+
+    width:
+        16px;
+
+    height:
+        16px;
+
+    flex:
+        0
+        0
+        16px;
+
+    border:
+        2px solid
+        currentColor;
+
+    border-top-color:
+        transparent;
+
+    border-radius:
+        50%;
+
+    animation:
+        offer-spinner
+        700ms
+        linear
+        infinite;
+}
+
+@keyframes offer-spinner {
+    to {
+        transform:
+            rotate(
+                360deg
+            );
+    }
+}
+
+/* =========================================================
+   OFFER UNAVAILABLE
+========================================================= */
+
+.offer-unavailable-state {
+    width:
+        100%;
+
+    min-height:
+        220px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        26px
+        18px;
+
+    border:
+        1px dashed
+        var(--offer-border-strong);
+
+    border-radius:
+        var(--offer-radius-md);
+
+    background:
+        var(--offer-surface-soft);
+
+    text-align:
+        center;
+}
+
+.offer-unavailable-icon {
+    display:
+        block;
+
+    margin-bottom:
+        10px;
+
+    font-size:
+        38px;
+
+    line-height:
+        1;
+}
+
+.offer-unavailable-state h2 {
+    margin:
+        0;
+
+    color:
+        var(--offer-text);
+
+    font-size:
+        19px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.35;
+}
+
+.offer-unavailable-state p {
+    max-width:
+        520px;
+
+    margin:
+        8px
+        auto
+        0;
+
+    color:
+        var(--offer-text-soft);
+
+    font-size:
+        13px;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.6;
+}
+
+/* =========================================================
+   PAGE STATUS
+========================================================= */
+
+.offer-page-status {
+    width:
+        min(
+            100%,
+            980px
+        );
+
+    margin:
+        0
+        auto
+        16px;
+
+    padding:
+        12px
+        14px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:
+        var(--offer-radius-sm);
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.5;
+}
+
+.offer-page-status.is-success,
+.offer-page-status[
+    data-status-type="success"
+] {
+    border-color:
+        rgba(
+            22,
+            163,
+            74,
+            0.2
+        );
+
+    background:
+        var(--offer-success-soft);
+
+    color:
+        var(--offer-success);
+}
+
+.offer-page-status.is-error,
+.offer-page-status[
+    data-status-type="error"
+] {
+    border-color:
+        rgba(
+            220,
+            38,
+            38,
+            0.2
+        );
+
+    background:
+        var(--offer-danger-soft);
+
+    color:
+        var(--offer-danger);
+}
+
+.offer-page-status.is-info,
+.offer-page-status[
+    data-status-type="info"
+] {
+    border-color:
+        rgba(
+            37,
+            99,
+            235,
+            0.2
+        );
+
+    background:
+        var(--offer-primary-soft);
+
+    color:
+        var(--offer-primary);
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.offer-page button:focus-visible,
+.offer-page a:focus-visible,
+.offer-page [tabindex]:focus-visible {
+    outline:
+        3px solid
+        rgba(
+            37,
+            99,
+            235,
+            0.25
+        );
+
+    outline-offset:
+        2px;
+}
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+    .offer-page {
+        min-height:
+            calc(
+                100dvh -
+                var(
+                    --topbar-height,
+                    92px
+                )
+            );
+
+        padding:
+            14px
+            10px
+            calc(
+                96px +
+                env(
+                    safe-area-inset-bottom
+                )
+            );
+    }
+
+    .offer-card {
+        margin-bottom:
+            14px;
+
+        padding:
+            18px
+            14px;
+
+        border-radius:
+            var(--offer-radius-md);
+    }
+
+    .offer-header {
+        gap:
+            11px;
+
+        margin-bottom:
+            15px;
+    }
+
+    .offer-header-icon {
+        width:
+            42px;
+
+        height:
+            42px;
+
+        flex-basis:
+            42px;
+
+        border-radius:
+            12px;
+
+        font-size:
+            20px;
+    }
+
+    .offer-title {
+        font-size:
+            22px;
+    }
+
+    .offer-description {
+        font-size:
+            13px;
+
+        line-height:
+            1.55;
+    }
+
+    .offer-image-container {
+        margin-bottom:
+            17px;
+    }
+
+    .offer-image {
+        min-height:
+            130px;
+
+        max-height:
+            380px;
+    }
+
+    .offer-section-title {
+        font-size:
+            16px;
+    }
+
+    .offer-rule-item {
+        grid-template-columns:
+            28px
+            minmax(
+                0,
+                1fr
+            );
+
+        gap:
+            9px;
+
+        padding:
+            10px;
+    }
+
+    .offer-rule-number {
+        width:
+            26px;
+
+        height:
+            26px;
+
+        font-size:
+            11px;
+    }
+
+    .offer-rule-text {
+        font-size:
+            12px;
+    }
+
+    .offer-important-note {
+        padding:
+            12px;
+
+        gap:
+            9px;
+    }
+
+    .offer-actions {
+        gap:
+            8px;
+    }
+
+    .offer-action-button {
+        min-height:
+            46px;
+
+        padding:
+            11px
+            12px;
+
+        font-size:
+            13px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+    .offer-card {
+        padding:
+            16px
+            12px;
+    }
+
+    .offer-header {
+        align-items:
+            center;
+    }
+
+    .offer-title {
+        font-size:
+            20px;
+    }
+
+    .offer-eyebrow {
+        font-size:
+            10px;
+    }
+
+    .offer-image {
+        min-height:
+            115px;
+
+        max-height:
+            320px;
+    }
+
+    .offer-rules-section {
+        padding-top:
+            15px;
+    }
+
+    .offer-rule-item {
+        border-radius:
+            9px;
+    }
+
+    .offer-important-note {
+        margin-top:
+            15px;
+    }
+
+    .offer-actions {
+        grid-template-columns:
+            1fr;
+    }
+
+    .offer-live-chat-button,
+    .offer-register-button {
+        width:
+            100%;
+    }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+    .offer-page {
+        padding-left:
+            8px;
+
+        padding-right:
+            8px;
+    }
+
+    .offer-card {
+        padding:
+            15px
+            10px;
+    }
+
+    .offer-header-icon {
+        width:
+            38px;
+
+        height:
+            38px;
+
+        flex-basis:
+            38px;
+
+        font-size:
+            18px;
+    }
+
+    .offer-title {
+        font-size:
+            19px;
+    }
+
+    .offer-description {
+        font-size:
+            12px;
+    }
+
+    .offer-rule-item {
+        padding:
+            9px
+            8px;
+    }
+
+    .offer-rule-text {
+        font-size:
+            11px;
+    }
+
+    .offer-important-note-content p {
+        font-size:
+            11px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+    prefers-reduced-motion:
+    reduce
+) {
+    .offer-page *,
+    .offer-page *::before,
+    .offer-page *::after {
+        scroll-behavior:
+            auto !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+    }
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+@media (
+    prefers-color-scheme:
+    dark
+) {
+    :root {
+        --offer-bg:
+            #0b1020;
+
+        --offer-surface:
+            #111827;
+
+        --offer-surface-soft:
+            #182033;
+
+        --offer-text:
+            #f8fafc;
+
+        --offer-text-soft:
+            #cbd5e1;
+
+        --offer-text-muted:
+            #94a3b8;
+
+        --offer-primary:
+            #60a5fa;
+
+        --offer-primary-dark:
+            #3b82f6;
+
+        --offer-primary-soft:
+            #172554;
+
+        --offer-success:
+            #4ade80;
+
+        --offer-success-soft:
+            #052e16;
+
+        --offer-warning:
+            #fbbf24;
+
+        --offer-warning-soft:
+            #422006;
+
+        --offer-danger:
+            #ef4444;
+
+        --offer-danger-soft:
+            #450a0a;
+
+        --offer-border:
+            #263246;
+
+        --offer-border-strong:
+            #3a475d;
+
+        --offer-shadow:
+            0 12px 34px
+            rgba(
+                0,
+                0,
+                0,
+                0.22
+            );
+
+        --offer-shadow-hover:
+            0 16px 40px
+            rgba(
+                0,
+                0,
+                0,
+                0.3
+            );
+    }
+
+    .offer-header-icon {
+        border-color:
+            rgba(
+                96,
+                165,
+                250,
+                0.18
+            );
+    }
+
+    .offer-important-note {
+        border-color:
+            rgba(
+                251,
+                191,
+                36,
+                0.2
+            );
+    }
+
+    .offer-register-button {
+        color:
+            #ffffff;
+    }
+}
