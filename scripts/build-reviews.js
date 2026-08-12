@@ -11,6 +11,9 @@
    - common header/features/footer আপডেট করা
    - reviews/index.html স্বয়ংক্রিয়ভাবে তৈরি করা
    - ItemList schema এবং root sitemap.xml আপডেট করা
+   - Review rich-result schema/microdata clean করা
+   - Editorial review pages-এ Article JSON-LD তৈরি করা
+   - Breadcrumb structured data বজায় রাখা
 
    Production rules:
    - Published local review image অবশ্যই থাকতে হবে
@@ -18,6 +21,8 @@
    - GitHub Project Pages-এর জন্য root-relative local image
      path অনুমোদিত নয়
    - Broken review asset নিয়ে production deploy হবে না
+   - Google Review rich-result-এর জন্য unsupported WebSite
+     itemReviewed schema generate করা হবে না
 
    Node.js 20+; external npm package প্রয়োজন নেই।
 ========================================================= */
@@ -554,6 +559,10 @@ function setCanonical(
           );
 }
 
+/* =========================================================
+   STRUCTURED DATA HELPERS
+========================================================= */
+
 function setSchema(
     html,
     schemaType,
@@ -608,6 +617,130 @@ function setSchema(
               /<\/head>/i,
               `    ${next}\n</head>`
           );
+}
+
+/*
+ * নির্দিষ্ট JSON-LD @type সম্পূর্ণ remove করে।
+ *
+ * পুরোনো Review JSON-LD page/template-এ থাকলেও
+ * build-এর পরে সেটি আর production HTML-এ থাকবে না।
+ */
+function removeSchema(
+    html,
+    schemaType
+) {
+    const pattern =
+        /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+
+    const typePattern =
+        new RegExp(
+            `"@type"\\s*:\\s*"${escapeRegExp(
+                schemaType
+            )}"`,
+            "i"
+        );
+
+    return String(
+        html || ""
+    ).replace(
+        pattern,
+        (
+            fullMatch,
+            scriptBody
+        ) => {
+            if (
+                typePattern.test(
+                    scriptBody || ""
+                )
+            ) {
+                return "";
+            }
+
+            return fullMatch;
+        }
+    );
+}
+
+/*
+ * পুরোনো Review/Rating Microdata clean করে।
+ *
+ * গুরুত্বপূর্ণ:
+ * - CSS class remove করে না
+ * - Visible rating remove করে না
+ * - Design/layout পরিবর্তন করে না
+ * - Article/Breadcrumb JSON-LD-এর ওপর প্রভাব ফেলে না
+ */
+function stripReviewMicrodata(
+    html
+) {
+    let output =
+        String(
+            html || ""
+        );
+
+    /*
+     * Rating-এর schema-only meta elements remove।
+     * Visible 4.0/5 score অক্ষত থাকে।
+     */
+    output = output.replace(
+        /<meta\b(?=[^>]*\bitemprop\s*=\s*["'](?:bestRating|worstRating)["'])[^>]*>\s*/gi,
+        ""
+    );
+
+    /*
+     * যেসব HTML tag সরাসরি Review বা Rating microdata
+     * root হিসেবে ব্যবহৃত হচ্ছে, সেখান থেকে শুধুমাত্র
+     * itemscope + itemtype remove করা হয়।
+     */
+    output = output.replace(
+        /<([a-z][a-z0-9:-]*)\b([^>]*)>/gi,
+        (
+            fullTag,
+            tagName,
+            attributes
+        ) => {
+            const reviewType =
+                /\bitemtype\s*=\s*["']https:\/\/schema\.org\/(?:Review|Rating)["']/i;
+
+            if (
+                !reviewType.test(
+                    attributes || ""
+                )
+            ) {
+                return fullTag;
+            }
+
+            let nextAttributes =
+                String(
+                    attributes || ""
+                );
+
+            nextAttributes =
+                nextAttributes.replace(
+                    /\s+itemscope(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi,
+                    ""
+                );
+
+            nextAttributes =
+                nextAttributes.replace(
+                    /\s+itemtype\s*=\s*["']https:\/\/schema\.org\/(?:Review|Rating)["']/gi,
+                    ""
+                );
+
+            return `<${tagName}${nextAttributes}>`;
+        }
+    );
+
+    /*
+     * Review microdata-এর property attributes remove।
+     * Class/id/aria/content untouched।
+     */
+    output = output.replace(
+        /\s+itemprop\s*=\s*["'](?:headline|description|datePublished|dateModified|author|image|reviewRating|ratingValue|bestRating|worstRating|reviewBody|itemReviewed)["']/gi,
+        ""
+    );
+
+    return output;
 }
 
 /* =========================================================
@@ -1440,10 +1573,16 @@ function renderFooter(
 }
 
 /* =========================================================
-   REVIEW PAGE SCHEMA
+   REVIEW PAGE ARTICLE SCHEMA
+
+   Important:
+   - Google Review rich-result schema intentionally omitted
+   - Reviewed entity is a website, which is not used here as
+     a Google Review-snippet eligible itemReviewed type
+   - Visible review/rating content remains unchanged
 ========================================================= */
 
-function reviewSchema(
+function articleSchema(
     review
 ) {
     const schema = {
@@ -1451,10 +1590,7 @@ function reviewSchema(
             "https://schema.org",
 
         "@type":
-            "Review",
-
-        name:
-            review.title,
+            "Article",
 
         headline:
             review.title,
@@ -1473,6 +1609,14 @@ function reviewSchema(
 
         url:
             review.canonicalUrl,
+
+        mainEntityOfPage: {
+            "@type":
+                "WebPage",
+
+            "@id":
+                review.canonicalUrl
+        },
 
         author: {
             "@type":
@@ -1494,28 +1638,6 @@ function reviewSchema(
 
             url:
                 `${CONFIG.baseUrl}/`
-        },
-
-        itemReviewed: {
-            "@type":
-                "WebSite",
-
-            name:
-                review.siteName
-        },
-
-        reviewRating: {
-            "@type":
-                "Rating",
-
-            ratingValue:
-                review.rating,
-
-            bestRating:
-                5,
-
-            worstRating:
-                1
         }
     };
 
@@ -1535,16 +1657,6 @@ function reviewSchema(
             height:
                 630
         };
-    }
-
-    if (
-        review.isSelfReview
-    ) {
-        schema.reviewBody =
-            "এটি 11Play-এর নিজস্ব সম্পাদকীয় স্ব-মূল্যায়ন; স্বাধীন তৃতীয়-পক্ষের রিভিউ নয়।";
-
-        schema.itemReviewed.url =
-            `${CONFIG.baseUrl}/`;
     }
 
     return schema;
@@ -1742,6 +1854,12 @@ function buildReviewPage(
             review.shortDescription
         );
 
+    /*
+     * review-rating metadata রাখা হচ্ছে।
+     *
+     * এটি builder/index display-এর internal metadata।
+     * Google Review rich-result schema নয়।
+     */
     html =
         setMeta(
             html,
@@ -1900,15 +2018,47 @@ function buildReviewPage(
             );
     }
 
+    /*
+     * =====================================================
+     * GOOGLE STRUCTURED DATA CLEANUP
+     * =====================================================
+     *
+     * Old pages/template may contain:
+     * - JSON-LD Review
+     * - HTML Review microdata
+     * - HTML Rating microdata
+     *
+     * Build-এর সময় সব clean করা হবে।
+     *
+     * CSS classes, visible score, stars, content অক্ষত থাকবে।
+     */
+
+    html =
+        stripReviewMicrodata(
+            html
+        );
+
+    html =
+        removeSchema(
+            html,
+            "Review"
+        );
+
+    /*
+     * Editorial review content is represented as Article.
+     */
     html =
         setSchema(
             html,
-            "Review",
-            reviewSchema(
+            "Article",
+            articleSchema(
                 review
             )
         );
 
+    /*
+     * Breadcrumb rich result schema preserved.
+     */
     html =
         setSchema(
             html,
@@ -2629,6 +2779,14 @@ function run() {
                 ? "Yes"
                 : "No"
         }`
+    );
+
+    console.log(
+        "Structured data: Article + Breadcrumb"
+    );
+
+    console.log(
+        "Legacy Review schema: Removed"
     );
 
     console.log(
