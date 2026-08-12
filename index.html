@@ -19,7 +19,7 @@
     ====================================================== -->
 
     <title>
-        11Play - Smart Web Access
+        11Play - Smart Web Access 
     </title>
 
     <meta
@@ -162,6 +162,36 @@
         content="11Play নতুন ইউজারের জন্য ৫০০ টাকা ক্যাশ বোনাস অফার"
     >
 
+    <meta
+        property="og:image"
+        content="https://11play.github.io/11play/assets/icon/11web-512.png?v=20260812"
+    >
+
+    <meta
+        property="og:image:secure_url"
+        content="https://11play.github.io/11play/assets/icon/11web-512.png?v=20260812"
+    >
+
+    <meta
+        property="og:image:type"
+        content="image/png"
+    >
+
+    <meta
+        property="og:image:width"
+        content="512"
+    >
+
+    <meta
+        property="og:image:height"
+        content="512"
+    >
+
+    <meta
+        property="og:image:alt"
+        content="11Play logo"
+    >
+
     <!-- =====================================================
          X / TWITTER SHARE PREVIEW
     ====================================================== -->
@@ -183,6 +213,11 @@
 
     <meta
         name="twitter:image"
+        content="https://11play.github.io/11play/assets/seo/11play-500-bdt-offer-share.png?v=20260812"
+    >
+
+    <meta
+        name="twitter:image:src"
         content="https://11play.github.io/11play/assets/seo/11play-500-bdt-offer-share.png?v=20260812"
     >
 
@@ -567,7 +602,7 @@
             pointer-events: auto;
         }
 
-        .bonus-offer-popup-box {
+        .bonus-popup-box {
             position: relative;
 
             width: 100%;
@@ -578,16 +613,24 @@
             overflow: hidden;
 
             border-radius:
-                20px
-                20px
+                22px
+                22px
                 0
                 0;
 
-            background: #ffffff;
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #071a46 0%,
+                    #0b4db8 52%,
+                    #087cf0 100%
+                );
 
             box-shadow:
-                0 -8px 35px
-                rgba(0, 0, 0, 0.35);
+                0 -10px 38px
+                rgba(0, 0, 0, 0.42);
 
             animation:
                 apk-popup-up
@@ -595,12 +638,28 @@
                 ease;
         }
 
-        .bonus-offer-popup-close {
+        .bonus-popup-box::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(75, 211, 255, 0.34),
+                    transparent 42%
+                );
+
+            pointer-events: none;
+        }
+
+        .bonus-popup-close {
             position: absolute;
             top: 10px;
             right: 10px;
 
-            z-index: 3;
+            z-index: 5;
 
             width: 38px;
             height: 38px;
@@ -609,7 +668,7 @@
             border-radius: 50%;
 
             background:
-                rgba(0, 0, 0, 0.58);
+                rgba(0, 0, 0, 0.35);
 
             color: #ffffff;
 
@@ -621,11 +680,190 @@
             cursor: pointer;
         }
 
-        .bonus-offer-popup-image {
-            display: block;
+        .bonus-popup-content {
+            position: relative;
 
-            width: 100%;
-            height: auto;
+            z-index: 2;
+
+            padding:
+                16px
+                16px
+                18px;
+        }
+
+        .bonus-popup-brand {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            padding-right: 44px;
+        }
+
+        .bonus-popup-logo {
+            width: 58px;
+            height: 58px;
+
+            flex: 0 0 auto;
+
+            border-radius: 15px;
+
+            object-fit: cover;
+
+            box-shadow:
+                0 7px 18px
+                rgba(0, 0, 0, 0.24);
+        }
+
+        .bonus-popup-brand-copy {
+            min-width: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 2px;
+        }
+
+        .bonus-popup-brand-name {
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .bonus-popup-brand-subtitle {
+            color:
+                rgba(255, 255, 255, 0.82);
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        .bonus-popup-offer {
+            margin-top: 14px;
+
+            padding:
+                14px
+                14px
+                13px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.22);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            box-shadow:
+                inset
+                0 1px 0
+                rgba(255, 255, 255, 0.10);
+        }
+
+        .bonus-popup-amount {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 31px;
+            font-weight: 950;
+            line-height: 1.15;
+        }
+
+        .bonus-popup-text {
+            margin:
+                8px
+                0
+                0;
+
+            color:
+                rgba(255, 255, 255, 0.92);
+
+            font-size: 15px;
+            font-weight: 650;
+            line-height: 1.55;
+        }
+
+        .bonus-popup-share-note {
+            margin-top: 11px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                10px
+                12px;
+
+            border-radius: 13px;
+
+            background:
+                rgba(0, 0, 0, 0.18);
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .bonus-popup-share-icon {
+            flex: 0 0 auto;
+
+            font-size: 20px;
+        }
+
+        .bonus-popup-actions {
+            margin-top: 13px;
+
+            display: grid;
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 10px;
+        }
+
+        .bonus-popup-action {
+            min-height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            padding:
+                10px
+                12px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            border-radius: 13px;
+
+            font: inherit;
+            font-size: 15px;
+            font-weight: 900;
+
+            cursor: pointer;
+        }
+
+        .bonus-popup-offer-button {
+            background: #ffffff;
+
+            color: #0754be;
+        }
+
+        .bonus-popup-share-button {
+            background:
+                rgba(255, 255, 255, 0.13);
+
+            color: #ffffff;
         }
 
         .admin-dashboard-entry-link {
@@ -701,11 +939,35 @@
 
                 font-size: 22px;
             }
+
+            .bonus-popup-content {
+                padding:
+                    14px
+                    12px
+                    16px;
+            }
+
+            .bonus-popup-logo {
+                width: 54px;
+                height: 54px;
+            }
+
+            .bonus-popup-brand-name {
+                font-size: 20px;
+            }
+
+            .bonus-popup-amount {
+                font-size: 27px;
+            }
+
+            .bonus-popup-text {
+                font-size: 14px;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .apk-popup-box,
-            .bonus-offer-popup-box {
+            .bonus-popup-box {
                 animation: none;
             }
         }
@@ -880,7 +1142,7 @@
         </div>
 
         <!-- =================================================
-             500 BDT BONUS POPUP
+             500 BDT OFFER POPUP
         ================================================== -->
 
         <div
@@ -889,25 +1151,85 @@
             aria-hidden="true"
         >
             <div
-                class="bonus-offer-popup-box"
+                class="bonus-popup-box"
                 role="dialog"
                 aria-modal="false"
-                aria-label="11Play 500 BDT new user offer"
+                aria-labelledby="bonusPopupTitle"
             >
                 <button
-                    id="bonusOfferPopupClose"
-                    class="bonus-offer-popup-close"
+                    id="bonusPopupClose"
+                    class="bonus-popup-close"
                     type="button"
                     aria-label="Close 500 BDT offer message"
                 >
                     ×
                 </button>
 
-                <img
-                    src="assets/images/offers/11play-500-bdt-offer.png"
-                    alt="11Play নতুন ইউজারের জন্য ৫০০ টাকা ক্যাশ বোনাস অফার"
-                    class="bonus-offer-popup-image"
-                >
+                <div class="bonus-popup-content">
+                    <div class="bonus-popup-brand">
+                        <img
+                            src="assets/icon/11web-192.png"
+                            alt="11Play"
+                            class="bonus-popup-logo"
+                        >
+
+                        <div class="bonus-popup-brand-copy">
+                            <div class="bonus-popup-brand-name">
+                                11Play
+                            </div>
+
+                            <div class="bonus-popup-brand-subtitle">
+                                নতুন ইউজারের বিশেষ অফার
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bonus-popup-offer">
+                        <h2
+                            id="bonusPopupTitle"
+                            class="bonus-popup-amount"
+                        >
+                            রেজিস্ট্রেশন করে ৫০০৳ নিন
+                        </h2>
+
+                        <p class="bonus-popup-text">
+                            নতুন ইউজার শর্ত পূরণ করে রেজিস্ট্রেশন সম্পন্ন করলে
+                            ৫০০৳ ক্যাশ বোনাস পেতে পারবেন। অফার নিতে প্রথমে
+                            11Play Live Chat থেকে সাইটের লিংক নিন।
+                        </p>
+
+                        <div class="bonus-popup-share-note">
+                            <span
+                                class="bonus-popup-share-icon"
+                                aria-hidden="true"
+                            >
+                                🎁
+                            </span>
+
+                            <span>
+                                আপনার বন্ধুকেও ৫০০৳ অফার পেতে 11Play শেয়ার করুন।
+                            </span>
+                        </div>
+
+                        <div class="bonus-popup-actions">
+                            <button
+                                id="bonusOfferOpenButton"
+                                class="bonus-popup-action bonus-popup-offer-button"
+                                type="button"
+                            >
+                                🎁 অফার দেখুন
+                            </button>
+
+                            <button
+                                class="bonus-popup-action bonus-popup-share-button"
+                                type="button"
+                                data-share-action="invite"
+                            >
+                                🔗 শেয়ার করুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1118,7 +1440,7 @@
                 }
 
                 /* ==========================================
-                   500 BDT BONUS POPUP
+                   500 BDT OFFER POPUP
                 =========================================== */
 
                 function setBonusPopupVisible(
@@ -1196,7 +1518,12 @@
 
                     const closeButton =
                         document.getElementById(
-                            "bonusOfferPopupClose"
+                            "bonusPopupClose"
+                        );
+
+                    const offerButton =
+                        document.getElementById(
+                            "bonusOfferOpenButton"
                         );
 
                     if (!closeButton) {
@@ -1212,6 +1539,20 @@
                             setBonusPopupVisible(
                                 false
                             );
+                        }
+                    );
+
+                    offerButton?.addEventListener(
+                        "click",
+                        () => {
+                            setBonusPopupVisible(
+                                false
+                            );
+
+                            window.Router
+                                ?.navigate?.(
+                                    "offer"
+                                );
                         }
                     );
                 }
