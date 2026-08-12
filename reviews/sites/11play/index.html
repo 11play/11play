@@ -178,20 +178,22 @@
         href="../../review.css"
     >
 
-    <!-- Review Structured Data -->
+    <!-- Article Structured Data -->
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Review",
-        "name": "11Play রিভিউ ২০২৬: ফিচার, নিরাপত্তা, স্বচ্ছতা ও ব্যবহারযোগ্যতার স্ব-মূল্যায়ন",
+        "@type": "Article",
         "headline": "11Play রিভিউ ২০২৬: ফিচার, নিরাপত্তা, স্বচ্ছতা ও ব্যবহারযোগ্যতার স্ব-মূল্যায়ন",
         "description": "11Play-এর বর্তমান কনটেন্ট, static review system, মোবাইল অভিজ্ঞতা, Google-connected profile, 500 BDT Offer, Live Chat, নিরাপত্তা, SEO এবং সীমাবদ্ধতা নিয়ে নিজস্ব কিন্তু স্বচ্ছ সম্পাদকীয় মূল্যায়ন।",
-        "reviewBody": "এই পৃষ্ঠাটি 11Play-এর নিজস্ব সম্পাদকীয় স্ব-মূল্যায়ন। এটি কোনো স্বাধীন তৃতীয়-পক্ষের রিভিউ নয়।",
         "datePublished": "2026-07-31",
         "dateModified": "2026-08-11",
         "inLanguage": "bn-BD",
         "url": "https://11play.github.io/11play/reviews/sites/11play/",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://11play.github.io/11play/reviews/sites/11play/"
+        },
         "image": {
             "@type": "ImageObject",
             "url": "https://11play.github.io/11play/reviews/assets/11play.webp",
@@ -207,17 +209,6 @@
             "@type": "Organization",
             "name": "11Play",
             "url": "https://11play.github.io/11play/"
-        },
-        "itemReviewed": {
-            "@type": "WebSite",
-            "name": "11Play",
-            "url": "https://11play.github.io/11play/"
-        },
-        "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": 4,
-            "bestRating": 5,
-            "worstRating": 1
         }
     }
     </script>
@@ -339,11 +330,7 @@
                 </ol>
             </nav>
 
-            <article
-                class="review-article"
-                itemscope
-                itemtype="https://schema.org/Review"
-            >
+            <article class="review-article">
 
                 <header class="review-article-header">
 
@@ -351,16 +338,13 @@
                         11Play Self-Review
                     </p>
 
-                    <h1 itemprop="headline">
+                    <h1>
                         11Play রিভিউ ২০২৬:
                         ফিচার, নিরাপত্তা, স্বচ্ছতা ও
                         ব্যবহারযোগ্যতার স্ব-মূল্যায়ন
                     </h1>
 
-                    <p
-                        class="review-article-summary"
-                        itemprop="description"
-                    >
+                    <p class="review-article-summary">
                         11Play-এর বর্তমান কনটেন্ট, static review
                         system, মোবাইল অভিজ্ঞতা, Google-connected
                         profile, 500 BDT Offer, Live Chat,
@@ -373,27 +357,21 @@
 
                         <span>
                             প্রকাশ:
-                            <time
-                                datetime="2026-07-31"
-                                itemprop="datePublished"
-                            >
+                            <time datetime="2026-07-31">
                                 ৩১ জুলাই ২০২৬
                             </time>
                         </span>
 
                         <span>
                             সর্বশেষ আপডেট:
-                            <time
-                                datetime="2026-08-11"
-                                itemprop="dateModified"
-                            >
+                            <time datetime="2026-08-11">
                                 ১১ আগস্ট ২০২৬
                             </time>
                         </span>
 
                         <span>
                             লেখক:
-                            <strong itemprop="author">
+                            <strong>
                                 11Play Editorial Team
                             </strong>
                         </span>
@@ -412,7 +390,6 @@
                         loading="eager"
                         decoding="async"
                         fetchpriority="high"
-                        itemprop="image"
                     >
 
                     <figcaption>
@@ -470,27 +447,14 @@
                         <div
                             class="review-score"
                             aria-label="৪ আউট অফ ৫"
-                            itemprop="reviewRating"
-                            itemscope
-                            itemtype="https://schema.org/Rating"
                         >
-                            <strong itemprop="ratingValue">
+                            <strong>
                                 4.0
                             </strong>
 
                             <span aria-hidden="true">
                                 / 5
                             </span>
-
-                            <meta
-                                itemprop="bestRating"
-                                content="5"
-                            >
-
-                            <meta
-                                itemprop="worstRating"
-                                content="1"
-                            >
                         </div>
 
                     </div>
@@ -771,7 +735,7 @@
                             </li>
 
                             <li>
-                                Review structured data।
+                                Article structured data।
                             </li>
 
                             <li>
