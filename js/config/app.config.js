@@ -13,21 +13,17 @@ window.AppConfig = {
      🔍 SEO CONFIG
   ========================= */
   seo: {
-    defaultTitle: "11Play - Smart Web Access",
-    defaultDescription: "11Play - News, Casino, Login and Smart Updates Platform",
+    defaultTitle: "11Play | Official Website",
+    defaultDescription: "11Play is the official Smart Web Access platform for trusted gaming-site access, account services, reviews, app access and special offers.",
     keywords: [
       "11Play",
-      "Play11",
-      "web11",
-      "11hub",
-      "50web",
       "11 Play",
-      "casino",
-      "bet",
-      "login",
-      "news",
-      "1111",
-      "one web"
+      "11Play Smart Web Access",
+      "11Play Official Website",
+      "11Play App",
+      "11Play Account",
+      "11Play Reviews",
+      "11Play Offers"
     ]
   },
 
