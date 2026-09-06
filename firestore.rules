@@ -1,0 +1,1424 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* =====================================================
+       11PLAY — FIRESTORE SECURITY RULES
+       Firebase Spark + GitHub Pages
+
+       Current architecture:
+
+       Public:
+       - sites
+       - news
+       - banners
+       - siteClicks
+
+       User account:
+       - profileUsers/{firebaseUid}
+       - profileEmails/{verifiedGoogleEmail}
+
+       Admin-only:
+       - profileOfferStatus/{firebaseUid}
+
+       Authentication:
+       - Verified Google sign-in required
+       - Firebase UID identifies the account
+       - Same Google/Firebase account restores same Profile
+
+       Mobile:
+       - Bangladesh number format required
+       - Mobile number is NOT globally unique
+       - Different users may use the same mobile number
+       - Once saved to a Profile, user cannot change it
+
+       Offer:
+       - Offer Paid status is separate from user Profile
+       - User cannot read Offer Paid status
+       - User cannot write Offer Paid status
+       - Permanent Admin can mark Offer Paid
+
+       Permanent Admin:
+       - casinobuzzbd@gmail.com
+
+       Removed systems:
+       - Referral
+       - Referral code
+       - Referral statistics
+       - Reward
+       - Wallet
+       - Withdrawal
+       - Activity
+       - Device binding
+       - Unique mobile reservation
+       - Financial audit system
+    ===================================================== */
+
+
+    /* =====================================================
+       COMMON AUTH HELPERS
+    ===================================================== */
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedGoogle() {
+      return isSignedIn() &&
+
+        request.auth.token.email is string &&
+
+        request.auth.token.email_verified == true &&
+
+        request.auth.token.firebase.sign_in_provider ==
+          'google.com';
+    }
+
+    function currentEmail() {
+      return request.auth.token.email.lower();
+    }
+
+    function isAdmin() {
+      return isVerifiedGoogle() &&
+
+        currentEmail() ==
+          'casinobuzzbd@gmail.com';
+    }
+
+    function isOwner(uid) {
+      return isVerifiedGoogle() &&
+
+        request.auth.uid ==
+          uid;
+    }
+
+    function isRequestTime(value) {
+      return value is timestamp &&
+
+        value ==
+          request.time;
+    }
+
+    function isValidPastOrCurrentTime(value) {
+      return value is timestamp &&
+
+        value <=
+          request.time;
+    }
+
+
+    /* =====================================================
+       BASIC VALIDATION
+    ===================================================== */
+
+    function isValidProfileStatus(value) {
+      return value is string &&
+
+        value in [
+          'active',
+          'suspended',
+          'blocked'
+        ];
+    }
+
+    function isValidBangladeshMobile(value) {
+      return value is string &&
+
+        value.matches(
+          '^[+]8801[3-9][0-9]{8}$'
+        );
+    }
+
+    function isValidEmail(value) {
+      return value is string &&
+
+        value.size() > 3 &&
+
+        value.size() <= 320;
+    }
+
+    function isValidName(value) {
+      return value is string &&
+
+        value.size() <= 200;
+    }
+
+    function isValidUsername(value) {
+      return value is string &&
+
+        value.size() > 0 &&
+
+        value.size() <= 320;
+    }
+
+    function isValidPhotoURL(value) {
+      return value is string &&
+
+        value.size() <= 2048;
+    }
+
+
+    /* =====================================================
+       PATH HELPERS
+    ===================================================== */
+
+    function profilePath(uid) {
+      return /databases/$(database)/documents/profileUsers/$(uid);
+    }
+
+    function emailPath(email) {
+      return /databases/$(database)/documents/profileEmails/$(email);
+    }
+
+    function offerStatusPath(uid) {
+      return /databases/$(database)/documents/profileOfferStatus/$(uid);
+    }
+
+
+    /* =====================================================
+       PROFILE — ALLOWED CREATE KEYS
+    ===================================================== */
+
+    function validProfileCreateKeys(data) {
+      return data.keys().hasOnly([
+        'uid',
+
+        'name',
+        'displayName',
+
+        'username',
+
+        'email',
+
+        'photo',
+        'photoURL',
+
+        'emailVerified',
+
+        'providerIds',
+
+        'googleConnected',
+        'isGoogleConnected',
+        'isGoogleSignIn',
+
+        'accountType',
+
+        'mobileNumber',
+        'mobileAdded',
+        'mobileLocked',
+        'isMobileLocked',
+
+        'registrationDate',
+        'createdAt',
+
+        'lastLogin',
+        'lastLoginAt',
+
+        'updatedAt',
+
+        'status',
+
+        'schemaVersion'
+      ]);
+    }
+
+
+    /* =====================================================
+       PROFILE — GOOGLE IDENTITY
+    ===================================================== */
+
+    function validGoogleProfileIdentity(
+      uid,
+      data
+    ) {
+      return isOwner(uid) &&
+
+        data.get(
+          'uid',
+          ''
+        ) ==
+          uid &&
+
+        isValidEmail(
+          data.get(
+            'email',
+            ''
+          )
+        ) &&
+
+        data.get(
+          'email',
+          ''
+        ).lower() ==
+          currentEmail() &&
+
+        data.get(
+          'emailVerified',
+          false
+        ) ==
+          true &&
+
+        data.get(
+          'providerIds',
+          []
+        ) is list &&
+
+        data.get(
+          'providerIds',
+          []
+        ).hasAny([
+          'google.com'
+        ]) &&
+
+        data.get(
+          'googleConnected',
+          false
+        ) ==
+          true &&
+
+        data.get(
+          'isGoogleConnected',
+          false
+        ) ==
+          true &&
+
+        data.get(
+          'isGoogleSignIn',
+          false
+        ) ==
+          true &&
+
+        data.get(
+          'accountType',
+          ''
+        ) ==
+          'google';
+    }
+
+
+    /* =====================================================
+       EMAIL RESERVATION VALIDATION
+    ===================================================== */
+
+    function emailReservationMatchesUser(
+      uid,
+      email
+    ) {
+      let reservation =
+        getAfter(
+          emailPath(
+            email
+          )
+        );
+
+      return reservation != null &&
+
+        reservation.data.get(
+          'email',
+          ''
+        ).lower() ==
+          email.lower() &&
+
+        reservation.data.get(
+          'uid',
+          ''
+        ) ==
+          uid &&
+
+        reservation.data.get(
+          'userId',
+          ''
+        ) ==
+          uid &&
+
+        reservation.data.get(
+          'provider',
+          ''
+        ) ==
+          'google.com';
+    }
+
+
+    /* =====================================================
+       PROFILE CREATE
+    ===================================================== */
+
+    function validOwnerProfileCreate(
+      uid
+    ) {
+      let data =
+        request.resource.data;
+
+      let email =
+        data.get(
+          'email',
+          ''
+        );
+
+      return validProfileCreateKeys(
+          data
+        ) &&
+
+        validGoogleProfileIdentity(
+          uid,
+          data
+        ) &&
+
+
+        /* -----------------------------
+           Google Profile fields
+        ----------------------------- */
+
+        isValidName(
+          data.get(
+            'name',
+            ''
+          )
+        ) &&
+
+        isValidName(
+          data.get(
+            'displayName',
+            ''
+          )
+        ) &&
+
+        isValidUsername(
+          data.get(
+            'username',
+            ''
+          )
+        ) &&
+
+        isValidPhotoURL(
+          data.get(
+            'photo',
+            ''
+          )
+        ) &&
+
+        isValidPhotoURL(
+          data.get(
+            'photoURL',
+            ''
+          )
+        ) &&
+
+
+        /* -----------------------------
+           Initial mobile state
+        ----------------------------- */
+
+        data.get(
+          'mobileNumber',
+          ''
+        ) ==
+          '' &&
+
+        data.get(
+          'mobileAdded',
+          false
+        ) ==
+          false &&
+
+        data.get(
+          'mobileLocked',
+          false
+        ) ==
+          false &&
+
+        data.get(
+          'isMobileLocked',
+          false
+        ) ==
+          false &&
+
+
+        /* -----------------------------
+           Registration
+        ----------------------------- */
+
+        isValidPastOrCurrentTime(
+          data.get(
+            'registrationDate',
+            null
+          )
+        ) &&
+
+        isRequestTime(
+          data.get(
+            'createdAt',
+            null
+          )
+        ) &&
+
+
+        /* -----------------------------
+           Login
+        ----------------------------- */
+
+        isValidPastOrCurrentTime(
+          data.get(
+            'lastLogin',
+            null
+          )
+        ) &&
+
+        isValidPastOrCurrentTime(
+          data.get(
+            'lastLoginAt',
+            null
+          )
+        ) &&
+
+
+        /* -----------------------------
+           Account
+        ----------------------------- */
+
+        data.get(
+          'status',
+          ''
+        ) ==
+          'active' &&
+
+        isRequestTime(
+          data.get(
+            'updatedAt',
+            null
+          )
+        ) &&
+
+        data.get(
+          'schemaVersion',
+          0
+        ) ==
+          4 &&
+
+
+        /* -----------------------------
+           Email reservation must exist
+           after the transaction.
+        ----------------------------- */
+
+        emailReservationMatchesUser(
+          uid,
+          email
+        );
+    }
+
+
+    /* =====================================================
+       PROFILE UPDATE — IMMUTABLE ACCOUNT IDENTITY
+    ===================================================== */
+
+    function validImmutableProfileFields(
+      before,
+      after
+    ) {
+      return
+
+        after.get(
+          'uid',
+          ''
+        ) ==
+          before.get(
+            'uid',
+            ''
+          ) &&
+
+
+        /*
+         * Existing registered email cannot change.
+         * Migration from an old missing email is allowed.
+         */
+
+        (
+          before.get(
+            'email',
+            ''
+          ) ==
+            '' ||
+
+          after.get(
+            'email',
+            ''
+          ).lower() ==
+            before.get(
+              'email',
+              ''
+            ).lower()
+        ) &&
+
+
+        /*
+         * Registration information is permanent.
+         */
+
+        after.get(
+          'registrationDate',
+          null
+        ) ==
+          before.get(
+            'registrationDate',
+            null
+          ) &&
+
+        after.get(
+          'createdAt',
+          null
+        ) ==
+          before.get(
+            'createdAt',
+            null
+          );
+    }
+
+
+    /* =====================================================
+       PROFILE UPDATE — STATUS PROTECTION
+
+       Ordinary user cannot suspend, block or activate
+       their own account manually.
+
+       Existing status is preserved.
+
+       Old Profile without status may migrate to active.
+    ===================================================== */
+
+    function validUserStatusTransition(
+      before,
+      after
+    ) {
+      let oldStatus =
+        before.get(
+          'status',
+          ''
+        );
+
+      let newStatus =
+        after.get(
+          'status',
+          ''
+        );
+
+      return (
+        oldStatus ==
+          '' &&
+
+        newStatus ==
+          'active'
+      ) || (
+        isValidProfileStatus(
+          oldStatus
+        ) &&
+
+        newStatus ==
+          oldStatus
+      );
+    }
+
+
+    /* =====================================================
+       PROFILE UPDATE — MOBILE
+
+       Mobile is unique only inside THIS Profile.
+
+       It is NOT globally unique.
+
+       Another user may use the same mobile number.
+    ===================================================== */
+
+    function mobileFieldsUnchanged(
+      before,
+      after
+    ) {
+      return
+
+        after.get(
+          'mobileNumber',
+          ''
+        ) ==
+          before.get(
+            'mobileNumber',
+            ''
+          ) &&
+
+        after.get(
+          'mobileAdded',
+          false
+        ) ==
+          before.get(
+            'mobileAdded',
+            false
+          ) &&
+
+        after.get(
+          'mobileLocked',
+          false
+        ) ==
+          before.get(
+            'mobileLocked',
+            false
+          ) &&
+
+        after.get(
+          'isMobileLocked',
+          false
+        ) ==
+          before.get(
+            'isMobileLocked',
+            false
+          );
+    }
+
+    function validNewMobileSave(
+      before,
+      after
+    ) {
+      return
+
+        before.get(
+          'mobileNumber',
+          ''
+        ) ==
+          '' &&
+
+        isValidBangladeshMobile(
+          after.get(
+            'mobileNumber',
+            ''
+          )
+        ) &&
+
+        after.get(
+          'mobileAdded',
+          false
+        ) ==
+          true &&
+
+        after.get(
+          'mobileLocked',
+          false
+        ) ==
+          true &&
+
+        after.get(
+          'isMobileLocked',
+          false
+        ) ==
+          true;
+    }
+
+    function validMobileTransition(
+      before,
+      after
+    ) {
+      return
+
+        mobileFieldsUnchanged(
+          before,
+          after
+        ) ||
+
+        validNewMobileSave(
+          before,
+          after
+        );
+    }
+
+
+    /* =====================================================
+       PROFILE UPDATE
+    ===================================================== */
+
+    function validOwnerProfileUpdate(
+      uid
+    ) {
+      let before =
+        resource.data;
+
+      let after =
+        request.resource.data;
+
+      let email =
+        after.get(
+          'email',
+          ''
+        );
+
+      return isOwner(uid) &&
+
+
+        /*
+         * Only these fields can ever be changed or added
+         * by the signed-in Profile owner.
+         */
+
+        after.diff(
+          before
+        ).affectedKeys().hasOnly([
+          'name',
+          'displayName',
+
+          'username',
+
+          'email',
+
+          'photo',
+          'photoURL',
+
+          'emailVerified',
+
+          'providerIds',
+
+          'googleConnected',
+          'isGoogleConnected',
+          'isGoogleSignIn',
+
+          'accountType',
+
+          'mobileNumber',
+          'mobileAdded',
+          'mobileLocked',
+          'isMobileLocked',
+
+          'lastLogin',
+          'lastLoginAt',
+
+          'updatedAt',
+
+          'status',
+
+          'schemaVersion'
+        ]) &&
+
+
+        /* -----------------------------
+           Identity
+        ----------------------------- */
+
+        validGoogleProfileIdentity(
+          uid,
+          after
+        ) &&
+
+        validImmutableProfileFields(
+          before,
+          after
+        ) &&
+
+
+        /* -----------------------------
+           Google presentation
+        ----------------------------- */
+
+        isValidName(
+          after.get(
+            'name',
+            ''
+          )
+        ) &&
+
+        isValidName(
+          after.get(
+            'displayName',
+            ''
+          )
+        ) &&
+
+        isValidUsername(
+          after.get(
+            'username',
+            ''
+          )
+        ) &&
+
+        isValidPhotoURL(
+          after.get(
+            'photo',
+            ''
+          )
+        ) &&
+
+        isValidPhotoURL(
+          after.get(
+            'photoURL',
+            ''
+          )
+        ) &&
+
+
+        /* -----------------------------
+           Mobile
+        ----------------------------- */
+
+        validMobileTransition(
+          before,
+          after
+        ) &&
+
+
+        /* -----------------------------
+           Status cannot be self-edited
+        ----------------------------- */
+
+        validUserStatusTransition(
+          before,
+          after
+        ) &&
+
+
+        /* -----------------------------
+           Login dates
+        ----------------------------- */
+
+        isValidPastOrCurrentTime(
+          after.get(
+            'lastLogin',
+            null
+          )
+        ) &&
+
+        isValidPastOrCurrentTime(
+          after.get(
+            'lastLoginAt',
+            null
+          )
+        ) &&
+
+
+        /* -----------------------------
+           Server-controlled update time
+        ----------------------------- */
+
+        isRequestTime(
+          after.get(
+            'updatedAt',
+            null
+          )
+        ) &&
+
+        after.get(
+          'schemaVersion',
+          0
+        ) ==
+          4 &&
+
+
+        /* -----------------------------
+           Email reservation
+        ----------------------------- */
+
+        emailReservationMatchesUser(
+          uid,
+          email
+        );
+    }
+
+
+    /* =====================================================
+       EMAIL RESERVATION CREATE
+
+       profileEmails/{email}
+
+       Purpose:
+       - One verified Google email -> one UID
+       - One verified Google email -> one 11Play Profile
+
+       User may read only the reservation corresponding
+       to their currently authenticated Google email.
+
+       User cannot list the collection.
+    ===================================================== */
+
+    function validEmailReservationCreate(
+      emailId
+    ) {
+      let data =
+        request.resource.data;
+
+      let profileAfter =
+        getAfter(
+          profilePath(
+            request.auth.uid
+          )
+        );
+
+      return isVerifiedGoogle() &&
+
+        emailId ==
+          currentEmail() &&
+
+        data.keys().hasOnly([
+          'email',
+          'uid',
+          'userId',
+          'provider',
+          'createdAt',
+          'schemaVersion'
+        ]) &&
+
+        data.get(
+          'email',
+          ''
+        ).lower() ==
+          currentEmail() &&
+
+        data.get(
+          'uid',
+          ''
+        ) ==
+          request.auth.uid &&
+
+        data.get(
+          'userId',
+          ''
+        ) ==
+          request.auth.uid &&
+
+        data.get(
+          'provider',
+          ''
+        ) ==
+          'google.com' &&
+
+        isRequestTime(
+          data.get(
+            'createdAt',
+            null
+          )
+        ) &&
+
+        data.get(
+          'schemaVersion',
+          0
+        ) ==
+          4 &&
+
+
+        /*
+         * Email reservation is valid only when the matching
+         * Profile exists after the same transaction.
+         */
+
+        profileAfter != null &&
+
+        profileAfter.data.get(
+          'uid',
+          ''
+        ) ==
+          request.auth.uid &&
+
+        profileAfter.data.get(
+          'email',
+          ''
+        ).lower() ==
+          currentEmail();
+    }
+
+
+    /* =====================================================
+       OFFER PAID — CREATE
+
+       Admin-only data.
+
+       User Profile does NOT contain this information.
+    ===================================================== */
+
+    function validOfferPaidCreate(
+      uid
+    ) {
+      let data =
+        request.resource.data;
+
+      let profile =
+        get(
+          profilePath(
+            uid
+          )
+        );
+
+      return isAdmin() &&
+
+        profile != null &&
+
+        data.keys().hasOnly([
+          'uid',
+
+          'offerPaid',
+          'offerPaidAt',
+
+          'offerPaidByUid',
+          'offerPaidByEmail',
+
+          'createdAt',
+          'updatedAt',
+
+          'schemaVersion'
+        ]) &&
+
+        data.get(
+          'uid',
+          ''
+        ) ==
+          uid &&
+
+        data.get(
+          'offerPaid',
+          false
+        ) ==
+          true &&
+
+        isRequestTime(
+          data.get(
+            'offerPaidAt',
+            null
+          )
+        ) &&
+
+        data.get(
+          'offerPaidByUid',
+          ''
+        ) ==
+          request.auth.uid &&
+
+        data.get(
+          'offerPaidByEmail',
+          ''
+        ).lower() ==
+          currentEmail() &&
+
+        isRequestTime(
+          data.get(
+            'createdAt',
+            null
+          )
+        ) &&
+
+        isRequestTime(
+          data.get(
+            'updatedAt',
+            null
+          )
+        ) &&
+
+        data.get(
+          'schemaVersion',
+          0
+        ) ==
+          4;
+    }
+
+
+    /* =====================================================
+       OFFER PAID — UPDATE
+
+       Used only if an older Offer status document exists
+       with offerPaid == false.
+
+       Once true, it cannot be changed back through Rules.
+    ===================================================== */
+
+    function validOfferPaidUpdate(
+      uid
+    ) {
+      let before =
+        resource.data;
+
+      let after =
+        request.resource.data;
+
+      let profile =
+        get(
+          profilePath(
+            uid
+          )
+        );
+
+      return isAdmin() &&
+
+        profile != null &&
+
+        before.get(
+          'offerPaid',
+          false
+        ) ==
+          false &&
+
+        after.get(
+          'offerPaid',
+          false
+        ) ==
+          true &&
+
+        after.keys().hasOnly([
+          'uid',
+
+          'offerPaid',
+          'offerPaidAt',
+
+          'offerPaidByUid',
+          'offerPaidByEmail',
+
+          'createdAt',
+          'updatedAt',
+
+          'schemaVersion'
+        ]) &&
+
+        after.get(
+          'uid',
+          ''
+        ) ==
+          uid &&
+
+        after.diff(
+          before
+        ).affectedKeys().hasOnly([
+          'offerPaid',
+          'offerPaidAt',
+
+          'offerPaidByUid',
+          'offerPaidByEmail',
+
+          'createdAt',
+          'updatedAt',
+
+          'schemaVersion'
+        ]) &&
+
+        isRequestTime(
+          after.get(
+            'offerPaidAt',
+            null
+          )
+        ) &&
+
+        after.get(
+          'offerPaidByUid',
+          ''
+        ) ==
+          request.auth.uid &&
+
+        after.get(
+          'offerPaidByEmail',
+          ''
+        ).lower() ==
+          currentEmail() &&
+
+
+        /*
+         * Preserve an existing creation date.
+         * Migration from a document without createdAt may
+         * initialize createdAt now.
+         */
+
+        (
+          (
+            before.get(
+              'createdAt',
+              null
+            ) is timestamp &&
+
+            after.get(
+              'createdAt',
+              null
+            ) ==
+              before.get(
+                'createdAt',
+                null
+              )
+          ) ||
+
+          (
+            before.get(
+              'createdAt',
+              null
+            ) ==
+              null &&
+
+            isRequestTime(
+              after.get(
+                'createdAt',
+                null
+              )
+            )
+          )
+        ) &&
+
+        isRequestTime(
+          after.get(
+            'updatedAt',
+            null
+          )
+        ) &&
+
+        after.get(
+          'schemaVersion',
+          0
+        ) ==
+          4;
+    }
+
+
+    /* =====================================================
+       PUBLIC APPLICATION DATA
+    ===================================================== */
+
+    match /sites/{siteId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /news/{newsId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /banners/{bannerId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /siteClicks/{siteId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+
+    /* =====================================================
+       PROFILE USERS
+
+       Owner:
+       - get own Profile
+       - create own Profile
+       - update allowed own Profile fields
+
+       Admin:
+       - get any Profile
+       - list all Profiles
+
+       Admin does NOT modify Profile data through this rule.
+       Offer status has its own collection.
+    ===================================================== */
+
+    match /profileUsers/{uid} {
+
+      allow get: if
+        isOwner(uid) ||
+        isAdmin();
+
+      allow list: if
+        isAdmin();
+
+      allow create: if
+        validOwnerProfileCreate(
+          uid
+        );
+
+      allow update: if
+        validOwnerProfileUpdate(
+          uid
+        );
+
+      allow delete: if false;
+    }
+
+
+    /* =====================================================
+       VERIFIED GOOGLE EMAIL RESERVATION
+    ===================================================== */
+
+    match /profileEmails/{emailId} {
+
+      /*
+       * Required by ensureProfile transaction so the
+       * signed-in Google account can check whether its own
+       * email reservation already exists.
+       */
+
+      allow get: if
+        isVerifiedGoogle() &&
+
+        emailId ==
+          currentEmail();
+
+      allow list: if false;
+
+      allow create: if
+        validEmailReservationCreate(
+          emailId
+        );
+
+      allow update, delete: if false;
+    }
+
+
+    /* =====================================================
+       ADMIN-ONLY OFFER PAID STATUS
+
+       Ordinary user:
+       - no get
+       - no list
+       - no create
+       - no update
+
+       Admin:
+       - get
+       - list
+       - mark Offer Paid
+    ===================================================== */
+
+    match /profileOfferStatus/{uid} {
+
+      allow get, list: if
+        isAdmin();
+
+      allow create: if
+        validOfferPaidCreate(
+          uid
+        );
+
+      allow update: if
+        validOfferPaidUpdate(
+          uid
+        );
+
+      allow delete: if false;
+    }
+
+
+    /* =====================================================
+       OLD ACCOUNT COLLECTIONS
+
+       No explicit permissions are provided for:
+       - profileReferralCodes
+       - profileMobiles
+       - profileDevices
+       - profileReferrals
+       - profileReferralStats
+       - profileActivity
+       - profileActivitySessions
+       - profileWallets
+       - profileWalletTransactions
+       - profileRewardEvents
+       - profileWithdrawals
+       - profileAuditLogs
+       - profileSettings
+       - profileAdmins
+
+       They therefore reach DEFAULT DENY below.
+    ===================================================== */
+
+
+    /* =====================================================
+       DEFAULT DENY
+    ===================================================== */
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

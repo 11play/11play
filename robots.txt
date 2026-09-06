@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Keep the admin interface out of search results
+Disallow: /11play/admin/
+
+# Deployment configuration is not a public search page
+Disallow: /11play/firebase.json
+
+# Main sitemap
+Sitemap: https://11play.github.io/11play/sitemap.xml
