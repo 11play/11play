@@ -13,7 +13,7 @@ External Reviews website:
 ```text
 https://11playreview.github.io/11playreview/
 ```
-
+ 
 The production architecture is designed to operate on the Firebase Spark plan without deployed Cloud Functions, Firebase Storage, Firebase Hosting, Cloud Run or a traditional application server.
 
 ---
